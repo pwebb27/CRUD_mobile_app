@@ -130,13 +130,13 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen> {
           backgroundColor: MaterialStateProperty.all<Color>(Colors.white)),
       onPressed: () {
         if (_message.isNotEmpty && _name.isNotEmpty) {
-          
           final Map<String, dynamic> post = {
             'name': _name,
             'message': _message,
           };
           _crudDatabaseReference.push().set(post);
-          _formKey.currentState!.reset();
+          nameTextFormController.clear();
+          messageTextFormController.clear();
           _message = _name = '';
         }
       },
@@ -162,6 +162,4 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen> {
     messageTextFormController.dispose();
     super.dispose();
   }
-  
 }
-

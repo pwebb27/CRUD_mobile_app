@@ -1,6 +1,6 @@
 # crud_mobile_app
 
-A new Flutter project.
+A simple proof of concept Firebase Realtime Database application to display user generated messages.
 
 ## Getting Started
 

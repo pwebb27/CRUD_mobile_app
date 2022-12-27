@@ -1,5 +1,4 @@
 import 'package:crud_mobile_app/providers/button_text_provider.dart';
-import 'package:crud_mobile_app/widgets/customScaffold.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_shadow/simple_shadow.dart';
@@ -40,48 +39,68 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => CustomScaffold(
-        linearGradient: const LinearGradient(
-            colors: [Color.fromRGBO(0, 68, 102, 1), Colors.black],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight),
-        child: Padding(
-          padding: const EdgeInsets.only(top: 30.0, left: 15, right: 15),
-          child: Column(children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 25),
-              //Package for adding shadow to image
-              child: SimpleShadow(
-                opacity: .6,
-                color: Colors.black,
-                offset: const Offset(3, 3),
-                sigma: 7,
-                child: Image.asset(
-                  'assets/images/flutter-logo.png',
-                  height: 95,
+  Widget build(BuildContext context) => SingleChildScrollView(
+        child: Container(
+            constraints: BoxConstraints(
+                maxHeight: MediaQuery.of(context).size.height -
+                    Scaffold.of(context).appBarMaxHeight!.toDouble(),
+                maxWidth: MediaQuery.of(context).size.width),
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                  colors: [Color.fromRGBO(0, 68, 102, 1), Colors.black],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight),
+            ),
+            child: Column(children: [
+              Expanded(
+                  flex: 2,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(30),
+                          bottomRight: Radius.circular(30)),
+                    ),
+                    child: Column(children: <Widget>[
+                      SimpleShadow(
+                        opacity: .6,
+                        color: Colors.black,
+                        offset: const Offset(3, 3),
+                        sigma: 7,
+                        child: Image.asset(
+                          'assets/images/flutter-logo.png',
+                          height: 95,
+                        ),
+                      ),
+                      Text(
+                        'Enter your name and message',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.displayLarge,
+                      ),
+                    ]),
+                  )),
+              Expanded(
+                flex: 3,
+                child: Container(
+                  width: double.infinity,
+                  child: Column(children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 40.0),
+                      child: Form(
+                          key: _formKey,
+                          child: ListView(shrinkWrap: true, children: [
+                            _buildFormField(FieldDataType.name),
+                            _buildFormField(FieldDataType.message)
+                          ])),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 15.0, top: 25),
+                      child: _buildSubmitButton(),
+                    )
+                  ]),
                 ),
               ),
-            ),
-            Padding(
-                padding:
-                    const EdgeInsets.only(left: 20.0, right: 20, bottom: 5),
-                child: Text(
-                  'Enter your name and message',
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.displayLarge,
-                )),
-            Form(
-                key: _formKey,
-                child: ListView(shrinkWrap: true, children: [
-                  _buildFormField(FieldDataType.name),
-                  _buildFormField(FieldDataType.message)
-                ])),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 15.0, top: 25),
-              child: _buildSubmitButton(),
-            )
-          ]),
-        ),
+            ])),
       );
 
   Widget _buildFormField(FieldDataType fieldDatatype) => Padding(

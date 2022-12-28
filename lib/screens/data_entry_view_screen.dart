@@ -188,8 +188,7 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
               onTapCancel: () => _buttonAnimationController.reverse(),
               onTapUp: (details) {
                 _buttonAnimationController.reverse();
-                if (context.read<ButtonTextProvider>().hasTextInFormFields ==
-                    true) {
+                if (context.read<ButtonTextProvider>().hasTextInFormFields) {
                   _crudDatabaseReference.push().set({
                     'name': nameTextFormController.text,
                     'message': messageTextFormController.text,
@@ -208,10 +207,9 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
                     style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
-                        color: context
+                        color: !context
                                     .watch<ButtonTextProvider>()
-                                    .hasTextInFormFields ==
-                                false
+                                    .hasTextInFormFields
                             ? Colors.grey.shade500
                             : Colors.black),
                   ),

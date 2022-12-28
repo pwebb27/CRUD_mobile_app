@@ -18,19 +18,22 @@ class _HomeTabsScreenState extends State<HomeTabsScreen> {
   @override
   Widget build(BuildContext context) => DefaultTabController(
       length: 2,
+
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
+        backgroundColor: Colors.transparent,
         appBar: AppBar(
           backgroundColor: const Color.fromRGBO(0, 119, 179,1),
           title: const Text('Simple CRUD App'),
-          bottom: const TabBar(tabs: <Widget>[
+          bottom: const TabBar(indicatorColor: Colors.white, tabs: <Widget>[
             Tab(child: Text('Data Entry')),
             Tab(
               child: Text('Messages'),
             )
           ]),
         ),
-        body: const TabBarView(
+        body: const TabBarView( 
+
+          
             children: [
               DataEntryViewScreen(),
               ViewDataScreen(),

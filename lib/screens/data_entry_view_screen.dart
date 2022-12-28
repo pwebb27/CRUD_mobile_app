@@ -42,7 +42,7 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
 
   //Checks if button has text
   void _buttonListener() {
-    context.read<ButtonTextProvider>().determineIfFieldsHaveText(
+    context.read<ButtonTextProvider>().checkTextInFormFields(
         messageTextFormController.text, nameTextFormController.text);
   }
 

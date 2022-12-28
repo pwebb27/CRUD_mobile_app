@@ -56,7 +56,7 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen> {
                   flex: 2,
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.blue,
+                      color: const Color.fromRGBO(0, 119, 179, 1),
                       borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(30),
                           bottomRight: Radius.circular(30)),
@@ -72,6 +72,8 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen> {
                           height: 95,
                         ),
                       ),
+                          ),
+                          const SizedBox(height: 25),
                       Text(
                         'Enter your name and message',
                         textAlign: TextAlign.center,
@@ -82,17 +84,14 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen> {
               Expanded(
                 flex: 3,
                 child: Container(
-                  width: double.infinity,
                   child: Column(children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 40.0),
-                      child: Form(
+                    SizedBox(height: 30),
+                    Form(
                           key: _formKey,
                           child: ListView(shrinkWrap: true, children: [
                             _buildFormField(FieldDataType.name),
                             _buildFormField(FieldDataType.message)
                           ])),
-                    ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 15.0, top: 25),
                       child: _buildSubmitButton(),

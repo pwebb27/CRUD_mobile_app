@@ -31,7 +31,7 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
         duration: const Duration(milliseconds: 50),
         vsync: this,
         lowerBound: 0,
-        upperBound: .1)
+        upperBound: .05)
       ..addListener(() {
         context.read<ButtonSizeProvider>().buttonScale =
             1 + _buttonAnimationController.value;

@@ -18,7 +18,6 @@ class _HomeTabsScreenState extends State<HomeTabsScreen> {
   @override
   Widget build(BuildContext context) => DefaultTabController(
       length: 2,
-
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
@@ -31,9 +30,7 @@ class _HomeTabsScreenState extends State<HomeTabsScreen> {
             )
           ]),
         ),
-        body: const TabBarView( 
-
-          
+        body: const TabBarView(     
             children: [
               DataEntryViewScreen(),
               ViewDataScreen(),

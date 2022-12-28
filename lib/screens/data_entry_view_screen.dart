@@ -120,7 +120,7 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
                     padding: const EdgeInsets.only(bottom: 15.0, top: 25),
                     child: _buildOpacityAndPaddingAnimation(
                         child: _buildSubmitButton()),
-                  )
+                  ),
                 ]),
               ),
             ])),
@@ -177,46 +177,49 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
         ),
       );
 
-  Widget _buildSubmitButton() => GestureDetector(
-        onTapDown: ((details) {
-          _buttonAnimationController.forward();
-          if (_messageEntry.isNotEmpty && _nameEntry.isNotEmpty) {
-            final Map<String, dynamic> post = {
-              'name': _nameEntry,
-              'message': _messageEntry,
-            };
-            _crudDatabaseReference.push().set(post);
-            nameTextFormController.clear();
-            messageTextFormController.clear();
-            _messageEntry = _nameEntry = '';
-          }
-        }),
-        onTapCancel: () {
-          _buttonAnimationController.reverse();
-        },
-        onTapUp: (details) => _buttonAnimationController.reverse(),
-        child: Transform.scale(
-            scale: context.watch<ButtonSizeProvider>().buttonScale,
-            child: Container(
-              height: 60,
-              width: 200,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10), color: Colors.white),
-              child: Center(
-                child: Text(
-                  'Submit',
-                  style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: context
-                                  .watch<ButtonTextProvider>()
-                                  .isTextInsideFields ==
-                              false
-                          ? Colors.grey.shade500
-                          : Colors.black),
+  Widget _buildSubmitButton() => Transform.scale(
+        scale: context.watch<ButtonSizeProvider>().buttonScale,
+        child: Material(
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.white,
+          child: InkWell(
+              onTapDown: ((details) {
+                _buttonAnimationController.forward();
+              }),
+              onTapCancel: () => _buttonAnimationController.reverse(),
+              onTapUp: (details) {
+                _buttonAnimationController.reverse();
+                if (_messageEntry.isNotEmpty && _nameEntry.isNotEmpty) {
+                  final Map<String, dynamic> post = {
+                    'name': _nameEntry,
+                    'message': _messageEntry,
+                  };
+                  _crudDatabaseReference.push().set(post);
+                  nameTextFormController.clear();
+                  messageTextFormController.clear();
+                  _messageEntry = _nameEntry = '';
+                }
+              },
+              child: Container(
+                height: 60,
+                width: 200,
+                decoration: BoxDecoration(color: Colors.transparent),
+                child: Center(
+                  child: Text(
+                    'Submit',
+                    style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: context
+                                    .watch<ButtonTextProvider>()
+                                    .isTextInsideFields ==
+                                false
+                            ? Colors.grey.shade500
+                            : Colors.black),
+                  ),
                 ),
-              ),
-            )),
+              )),
+        ),
       );
 
   @override

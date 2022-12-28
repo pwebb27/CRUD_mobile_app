@@ -196,7 +196,7 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
               child: Container(
                 height: 60,
                 width: 200,
-                decoration: BoxDecoration(color: Colors.transparent),
+                decoration: const BoxDecoration(color: Colors.transparent),
                 child: Center(
                   child: Text(
                     'Submit',

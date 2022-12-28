@@ -16,8 +16,6 @@ enum FieldDataType { name, message }
 
 class _DataEntryViewScreenState extends State<DataEntryViewScreen>
     with TickerProviderStateMixin {
-  String _nameEntry = '';
-  String _messageEntry = '';
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final DatabaseReference _crudDatabaseReference =
       FirebaseDatabase.instance.ref().child('messages');
@@ -141,11 +139,6 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
             const EdgeInsets.only(top: 20.0, left: 20, right: 20, bottom: 5),
         child: TextFormField(
           style: const TextStyle(color: Colors.white),
-          onChanged: (textFormText) {
-            fieldDatatype == FieldDataType.message
-                ? _messageEntry = textFormText
-                : _nameEntry = textFormText;
-          },
           controller: fieldDatatype == FieldDataType.message
               ? messageTextFormController
               : nameTextFormController,
@@ -189,15 +182,14 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
               onTapCancel: () => _buttonAnimationController.reverse(),
               onTapUp: (details) {
                 _buttonAnimationController.reverse();
-                if (_messageEntry.isNotEmpty && _nameEntry.isNotEmpty) {
-                  final Map<String, dynamic> post = {
-                    'name': _nameEntry,
-                    'message': _messageEntry,
-                  };
-                  _crudDatabaseReference.push().set(post);
+                if (context.read<ButtonTextProvider>().hasTextInFormFields ==
+                    true) {
+                  _crudDatabaseReference.push().set({
+                    'name': nameTextFormController.text,
+                    'message': messageTextFormController.text,
+                  });
                   nameTextFormController.clear();
                   messageTextFormController.clear();
-                  _messageEntry = _nameEntry = '';
                 }
               },
               child: Container(

@@ -176,6 +176,7 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
           borderRadius: BorderRadius.circular(10),
           color: Colors.white,
           child: InkWell(
+              borderRadius: BorderRadius.circular(10),
               onTapDown: ((details) {
                 _buttonAnimationController.forward();
               }),

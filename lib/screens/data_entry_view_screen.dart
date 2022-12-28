@@ -205,7 +205,7 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
                         fontWeight: FontWeight.bold,
                         color: context
                                     .watch<ButtonTextProvider>()
-                                    .isTextInsideFields ==
+                                    .hasTextInFormFields ==
                                 false
                             ? Colors.grey.shade500
                             : Colors.black),

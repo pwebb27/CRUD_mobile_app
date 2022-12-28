@@ -1,3 +1,4 @@
+import 'package:crud_mobile_app/providers/button_size_provider.dart';
 import 'package:crud_mobile_app/providers/button_text_provider.dart';
 import 'package:crud_mobile_app/screens/home_tabs_screen.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,8 @@ Future<void> main() async {
 
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => ButtonTextProvider()),
+    ChangeNotifierProvider(create: (_) => ButtonSizeProvider()),
+
   ], child: MyApp()));
 }
 
@@ -25,23 +28,23 @@ class MyApp extends StatelessWidget {
     Wakelock.enable();
 
     SystemChrome.setPreferredOrientations([
-        DeviceOrientation.portraitUp,
-        DeviceOrientation.portraitDown,
-      ]);
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          errorColor: const Color.fromRGBO(139, 0, 0, 1),
-          textTheme: const TextTheme(
-              titleMedium: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-              bodyMedium: TextStyle(fontSize: 14),
-              displayLarge: TextStyle(
-                color: Colors.white,
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-              )),
-          primaryColor: Color.fromRGBO(0, 68, 102, 1)
-        ),
+            errorColor: const Color.fromRGBO(139, 0, 0, 1),
+            textTheme: const TextTheme(
+                titleMedium:
+                    TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                bodyMedium: TextStyle(fontSize: 14),
+                displayLarge: TextStyle(
+                  color: Colors.white,
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                )),
+            primaryColor: Color.fromRGBO(0, 68, 102, 1)),
         home: FutureBuilder(
             future: _firebaseApp,
             builder: (context, snapshot) {

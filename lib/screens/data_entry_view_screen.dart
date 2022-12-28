@@ -81,9 +81,17 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen> {
                             child: Text(
                               'Enter your name and message',
                               textAlign: TextAlign.center,
-                              style: Theme.of(context).textTheme.displayLarge,
+                          style: Theme.of(context)
+                              .textTheme
+                              .displayLarge!
+                              .copyWith(shadows: <Shadow>[
+                            Shadow(
+                              offset: Offset(10.0, 10.0),
+                              blurRadius: 40.0,
+                              color: Color.fromARGB(255, 0, 0, 0),
                             ),
-                          )
+                          ]),
+                        ))
                         ]),
                   )),
               Expanded(

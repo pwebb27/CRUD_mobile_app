@@ -61,25 +61,30 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen> {
                           bottomLeft: Radius.circular(30),
                           bottomRight: Radius.circular(30)),
                     ),
-                    child: Column(children: <Widget>[
-                      SimpleShadow(
-                        opacity: .6,
-                        color: Colors.black,
-                        offset: const Offset(3, 3),
-                        sigma: 7,
-                        child: Image.asset(
-                          'assets/images/flutter-logo.png',
-                          height: 95,
-                        ),
-                      ),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          _buildOpacityAndPaddingAnimation(
+                            child: SimpleShadow(
+                              opacity: .6,
+                              color: Colors.black,
+                              offset: const Offset(3, 3),
+                              sigma: 7,
+                              child: Image.asset(
+                                'assets/images/flutter-logo.png',
+                                height: 95,
+                              ),
+                            ),
                           ),
                           const SizedBox(height: 25),
-                      Text(
-                        'Enter your name and message',
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.displayLarge,
-                      ),
-                    ]),
+                          _buildOpacityAndPaddingAnimation(
+                            child: Text(
+                              'Enter your name and message',
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.displayLarge,
+                            ),
+                          )
+                        ]),
                   )),
               Expanded(
                 flex: 3,
@@ -87,11 +92,11 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen> {
                   child: Column(children: [
                     SizedBox(height: 30),
                     Form(
-                          key: _formKey,
-                          child: ListView(shrinkWrap: true, children: [
-                            _buildFormField(FieldDataType.name),
-                            _buildFormField(FieldDataType.message)
-                          ])),
+                        key: _formKey,
+                        child: ListView(shrinkWrap: true, children: [
+                          _buildFormField(FieldDataType.name),
+                          _buildFormField(FieldDataType.message)
+                        ])),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 15.0, top: 25),
                       child: _buildSubmitButton(),
@@ -102,7 +107,19 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen> {
             ])),
       );
 
-  Widget _buildFormField(FieldDataType fieldDatatype) => Padding(
+  Widget _buildOpacityAndPaddingAnimation({required Widget child}) =>
+      TweenAnimationBuilder(
+          tween: Tween<double>(begin: 0, end: 1),
+          duration: const Duration(milliseconds: 500),
+          builder: (context, value, child) => Padding(
+                padding: EdgeInsets.only(top: 10-(value*10)),
+                child: Opacity(opacity: value, child: child),
+              ),
+          child: child);
+
+  Widget _buildFormField(FieldDataType fieldDatatype) =>
+      _buildOpacityAndPaddingAnimation(
+          child: Padding(
         padding:
             const EdgeInsets.only(top: 20.0, left: 20, right: 20, bottom: 5),
         child: TextFormField(
@@ -141,36 +158,41 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen> {
               labelText:
                   fieldDatatype == FieldDataType.message ? 'Message' : 'Name'),
         ),
-      );
-
-  Widget _buildSubmitButton() => ElevatedButton(
-      style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(Colors.white)),
-      onPressed: () {
-        if (_message.isNotEmpty && _name.isNotEmpty) {
-          final Map<String, dynamic> post = {
-            'name': _name,
-            'message': _message,
-          };
-          _crudDatabaseReference.push().set(post);
-          nameTextFormController.clear();
-          messageTextFormController.clear();
-          _message = _name = '';
-        }
-      },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 30),
-        child: Text(
-          'Submit',
-          style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: context.watch<ButtonTextProvider>().isTextInsideFields ==
-                      false
-                  ? Colors.grey.shade500
-                  : Colors.black),
-        ),
       ));
+
+  Widget _buildSubmitButton() => _buildOpacityAndPaddingAnimation(
+        child: ElevatedButton(
+            style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all<Color>(Colors.white)),
+            onPressed: () {
+              if (_message.isNotEmpty && _name.isNotEmpty) {
+                final Map<String, dynamic> post = {
+                  'name': _name,
+                  'message': _message,
+                };
+                _crudDatabaseReference.push().set(post);
+                nameTextFormController.clear();
+                messageTextFormController.clear();
+                _message = _name = '';
+              }
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 30),
+              child: Text(
+                'Submit',
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: context
+                                .watch<ButtonTextProvider>()
+                                .isTextInsideFields ==
+                            false
+                        ? Colors.grey.shade500
+                        : Colors.black),
+              ),
+            )),
+      );
 
   @override
   void dispose() {

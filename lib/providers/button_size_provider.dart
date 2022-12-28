@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-//Provider for changing color inside submit button of DataEntryViewScreen
+//Provider for changing size of button (used for tap inputs)
 class ButtonSizeProvider extends ChangeNotifier {
   double _buttonScale = 1;
 

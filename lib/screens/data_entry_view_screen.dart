@@ -19,14 +19,17 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final DatabaseReference _crudDatabaseReference =
       FirebaseDatabase.instance.ref().child('messages');
+  late final AnimationController _buttonAnimationController;
+
+  //Controllers for monitoring text input of form's TextFormFields
   final TextEditingController nameTextFormController = TextEditingController();
   final TextEditingController messageTextFormController =
       TextEditingController();
-  late final AnimationController _buttonAnimationController;
 
   @override
   void initState() {
     super.initState();
+    //Animation used for changing size of button based on tap inputs
     _buttonAnimationController = AnimationController(
         duration: const Duration(milliseconds: 50),
         vsync: this,
@@ -40,7 +43,6 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
     nameTextFormController.addListener(_textFormFieldsTextListener);
   }
 
-  //Checks if button has text
   void _textFormFieldsTextListener() {
     context.read<ButtonTextProvider>().checkTextInFormFields(
         messageTextFormController.text, nameTextFormController.text);
@@ -124,6 +126,7 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
             ])),
       );
 
+  //Returns opacity and padding animation used for widgets in widget tree upon initial app load
   Widget _buildOpacityAndPaddingAnimation({required Widget child}) =>
       TweenAnimationBuilder(
           tween: Tween<double>(begin: 0, end: 1),
@@ -171,16 +174,17 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
       );
 
   Widget _buildSubmitButton() => Transform.scale(
-        //scale determined by onTap 
         scale: context.watch<ButtonSizeProvider>().buttonScale,
         child: Material(
           borderRadius: BorderRadius.circular(10),
           color: Colors.white,
           child: InkWell(
               borderRadius: BorderRadius.circular(10),
+              //Increase size of button on tap down
               onTapDown: ((details) {
                 _buttonAnimationController.forward();
               }),
+              //Decrease size of button on tap up and tap cancel
               onTapCancel: () => _buttonAnimationController.reverse(),
               onTapUp: (details) {
                 _buttonAnimationController.reverse();

@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 
 //Provider for changing color inside submit button of DataEntryViewScreen
 class ButtonTextProvider extends ChangeNotifier {
-  bool _isTextInsideFields = false;
+  bool _hasTextInFormFields = false;
 
-  bool get isTextInsideFields => _isTextInsideFields;
+  bool get hasTextInFormFields => _hasTextInFormFields;
 
-  void determineIfFieldsHaveText(
+  void checkTextInFormFields(
       String messageText,
       String nameText) {
     (nameText !='' && messageText!='')
-        ? _isTextInsideFields = true
-        : _isTextInsideFields = false;
+        ? _hasTextInFormFields = true
+        : _hasTextInFormFields = false;
     notifyListeners();
   }
 }

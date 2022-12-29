@@ -142,12 +142,15 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
           controller: fieldDatatype == FieldDataType.message
               ? messageTextFormController
               : nameTextFormController,
-          cursorColor: Colors.white,
+          textInputAction: fieldDatatype == FieldDataType.name
+              ? TextInputAction.next
+              : TextInputAction.done,
           onFieldSubmitted: (value) {
             if (context.read<ButtonTextProvider>().hasTextInFormFields) {
               _postNameAndMessage();
             }
           },
+          cursorColor: Colors.white,
           textAlignVertical: TextAlignVertical.center,
           decoration: InputDecoration(
               isDense: true,

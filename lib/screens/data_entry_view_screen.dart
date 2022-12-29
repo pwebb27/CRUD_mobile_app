@@ -145,9 +145,16 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
           textInputAction: fieldDatatype == FieldDataType.name
               ? TextInputAction.next
               : TextInputAction.done,
-          onFieldSubmitted: (value) {
-            if (context.read<ButtonTextProvider>().hasTextInFormFields) {
-              _postNameAndMessage();
+          onEditingComplete: () {
+            //Move to message TextFormField upon entering name
+            if (fieldDatatype == FieldDataType.name) {
+              FocusScope.of(context).nextFocus();
+            }
+          },
+          onFieldSubmitted: (_) {
+            //Hide keyboard in message TextFormField if both fields have text
+            if (fieldDatatype == FieldDataType.message) {
+              FocusScope.of(context).unfocus();
             }
           },
           cursorColor: Colors.white,

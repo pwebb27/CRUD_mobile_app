@@ -16,7 +16,6 @@ enum FieldDataType { name, message }
 
 class _DataEntryViewScreenState extends State<DataEntryViewScreen>
     with TickerProviderStateMixin {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final DatabaseReference _crudDatabaseReference =
       FirebaseDatabase.instance.ref().child('messages');
   late final AnimationController _buttonAnimationController;
@@ -108,14 +107,12 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
                 flex: 3,
                 child: Column(children: [
                   const SizedBox(height: 30),
-                  Form(
-                      key: _formKey,
-                      child: ListView(shrinkWrap: true, children: [
+                  ListView(shrinkWrap: true, children: [
                         _buildOpacityAndPaddingAnimation(
                             child: _buildFormField(FieldDataType.name)),
                         _buildOpacityAndPaddingAnimation(
                             child: _buildFormField(FieldDataType.message))
-                      ])),
+                  ]),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 15.0, top: 25),
                     child: _buildOpacityAndPaddingAnimation(

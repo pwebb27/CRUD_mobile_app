@@ -51,80 +51,83 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
   }
 
   @override
-  Widget build(BuildContext context) => SingleChildScrollView(
-        child: Container(
-            constraints: BoxConstraints(
-              maxHeight: MediaQuery.of(context).size.height -
-                  Scaffold.of(context).appBarMaxHeight!.toDouble(),
-            ),
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                  colors: [Color.fromRGBO(0, 68, 102, 1), Colors.black],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight),
-            ),
-            child: Column(children: [
-              Expanded(
-                  flex: 2,
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      color: Color.fromRGBO(0, 119, 179, 1),
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(30),
-                          bottomRight: Radius.circular(30)),
-                    ),
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          _buildOpacityAndPaddingAnimation(
-                            child: SimpleShadow(
-                              opacity: .6,
-                              color: Colors.black,
-                              offset: const Offset(3, 3),
-                              sigma: 7,
-                              child: Image.asset(
-                                'assets/images/flutter-logo.png',
-                                height: 95,
-                              ),
+  Widget build(BuildContext context) {
+    super.build(context);
+    return SingleChildScrollView(
+      child: Container(
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height -
+                Scaffold.of(context).appBarMaxHeight!.toDouble(),
+          ),
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+                colors: [Color.fromRGBO(0, 68, 102, 1), Colors.black],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight),
+          ),
+          child: Column(children: [
+            Expanded(
+                flex: 2,
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: Color.fromRGBO(0, 119, 179, 1),
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(30),
+                        bottomRight: Radius.circular(30)),
+                  ),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        _buildOpacityAndPaddingAnimation(
+                          child: SimpleShadow(
+                            opacity: .6,
+                            color: Colors.black,
+                            offset: const Offset(3, 3),
+                            sigma: 7,
+                            child: Image.asset(
+                              'assets/images/flutter-logo.png',
+                              height: 95,
                             ),
                           ),
-                          const SizedBox(height: 25),
-                          _buildOpacityAndPaddingAnimation(
-                              child: Text(
-                            'Enter your name and message',
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context)
-                                .textTheme
-                                .displayLarge!
-                                .copyWith(shadows: <Shadow>[
-                              const Shadow(
-                                offset: Offset(10.0, 10.0),
-                                blurRadius: 40.0,
-                                color: Color.fromARGB(255, 0, 0, 0),
-                              ),
-                            ]),
-                          ))
-                        ]),
-                  )),
-              Expanded(
-                flex: 3,
-                child: Column(children: [
-                  const SizedBox(height: 30),
-                  ListView(shrinkWrap: true, children: [
-                    _buildOpacityAndPaddingAnimation(
-                        child: _buildFormField(FieldDataType.name)),
-                    _buildOpacityAndPaddingAnimation(
-                        child: _buildFormField(FieldDataType.message))
-                  ]),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 15.0, top: 25),
-                    child: _buildOpacityAndPaddingAnimation(
-                        child: _buildSubmitButton()),
-                  ),
+                        ),
+                        const SizedBox(height: 25),
+                        _buildOpacityAndPaddingAnimation(
+                            child: Text(
+                          'Enter your name and message',
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context)
+                              .textTheme
+                              .displayLarge!
+                              .copyWith(shadows: <Shadow>[
+                            const Shadow(
+                              offset: Offset(10.0, 10.0),
+                              blurRadius: 40.0,
+                              color: Color.fromARGB(255, 0, 0, 0),
+                            ),
+                          ]),
+                        ))
+                      ]),
+                )),
+            Expanded(
+              flex: 3,
+              child: Column(children: [
+                const SizedBox(height: 30),
+                ListView(shrinkWrap: true, children: [
+                  _buildOpacityAndPaddingAnimation(
+                      child: _buildFormField(FieldDataType.name)),
+                  _buildOpacityAndPaddingAnimation(
+                      child: _buildFormField(FieldDataType.message))
                 ]),
-              ),
-            ])),
-      );
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 15.0, top: 25),
+                  child: _buildOpacityAndPaddingAnimation(
+                      child: _buildSubmitButton()),
+                ),
+              ]),
+            ),
+          ])),
+    );
+  }
 
   //Returns opacity and padding animation used for widgets in widget tree upon initial app load
   Widget _buildOpacityAndPaddingAnimation({required Widget child}) =>
@@ -141,24 +144,29 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
         padding:
             const EdgeInsets.only(top: 20.0, left: 20, right: 20, bottom: 5),
         child: TextFormField(
-          style: const TextStyle(color: Colors.white),
+          style: const TextStyle(
+            color: Colors.white,
+          ),
           controller: fieldDatatype == FieldDataType.message
               ? messageTextFormController
               : nameTextFormController,
+          //Name keyboard action always shows next line symbol
           textInputAction: fieldDatatype == FieldDataType.name
               ? TextInputAction.next
-              : TextInputAction.done,
-          onEditingComplete: () {
-            //Move to message TextFormField upon entering name
-            if (fieldDatatype == FieldDataType.name) {
-              FocusScope.of(context).nextFocus();
-            }
-          },
+              // Message keyboard action shows previous line symbol if name field empty
+              : nameTextFormController.text == ''
+                  ? TextInputAction.previous
+                  : TextInputAction.done,
           onFieldSubmitted: (_) {
-            //Hide keyboard in message TextFormField if both fields have text
-            if (fieldDatatype == FieldDataType.message) {
-              FocusScope.of(context).unfocus();
-            }
+            //Always shift focus in name TextFormField
+            (fieldDatatype == FieldDataType.name)
+                ? FocusScope.of(context).nextFocus()
+                :
+                //Go back to name TextFormField from message TextFormField if no text entered
+                (nameTextFormController.text == '')
+                    ? FocusScope.of(context).previousFocus()
+                    //Otherwise hide keyboard
+                    : FocusScope.of(context).unfocus();
           },
           cursorColor: Colors.white,
           textAlignVertical: TextAlignVertical.center,
@@ -167,20 +175,19 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
               prefixIcon: fieldDatatype == FieldDataType.message
                   ? const Icon(
                       Icons.message,
-                      color: Colors.white,
                     )
                   : const Icon(
                       Icons.person,
-                      color: Colors.white,
                     ),
               labelStyle: const TextStyle(color: Colors.white70),
+              floatingLabelStyle: const TextStyle(color: Colors.white),
               enabledBorder: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
                 borderSide: BorderSide(width: 1, color: Colors.white70),
               ),
               focusedBorder: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
-                borderSide: BorderSide(width: 1, color: Colors.white),
+                borderSide: BorderSide(width: 2, color: Colors.white),
               ),
               alignLabelWithHint: true,
               labelText:
@@ -259,3 +266,23 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
     super.dispose();
   }
 }
+
+// class MyPainter extends CustomPainter{
+//   class BluePainter extends CustomPainter{
+//     @override
+//     void paint(Canvas canvas, Size size){
+//       final height = size.height;
+//       final width = size.width;
+//       Paint paint = Paint();
+
+//       Path lineBackground = Path();
+//       lineBackground.moveTo(0, height*.2); 
+
+//     }
+//     @override
+//     bool shouldRepaint(CustomPainter() oldDelegate){
+//       return oldDelegate !=this;
+//     }
+//   }
+// }
+

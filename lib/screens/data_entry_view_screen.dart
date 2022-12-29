@@ -15,7 +15,10 @@ class DataEntryViewScreen extends StatefulWidget {
 enum FieldDataType { name, message }
 
 class _DataEntryViewScreenState extends State<DataEntryViewScreen>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   final DatabaseReference _crudDatabaseReference =
       FirebaseDatabase.instance.ref().child('messages');
   late final AnimationController _buttonAnimationController;
@@ -226,16 +229,14 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
     final scaffold = ScaffoldMessenger.of(context);
     scaffold.showSnackBar(
       SnackBar(
-        
         backgroundColor: Theme.of(context).primaryColor,
-        content:  Row(
+        content: Row(
           children: const [
-            Icon(Icons.message,color: Colors.white,size:18),
-             SizedBox(width: 15),
-             Text('Message Posted'),
+            Icon(Icons.message, color: Colors.white, size: 18),
+            SizedBox(width: 15),
+            Text('Message Posted'),
           ],
         ),
-       
       ),
     );
   }

@@ -9,7 +9,11 @@ class ViewDataScreen extends StatefulWidget {
   State<ViewDataScreen> createState() => _ViewDataScreenState();
 }
 
-class _ViewDataScreenState extends State<ViewDataScreen> {
+class _ViewDataScreenState extends State<ViewDataScreen>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+  
   final _crudDatabaseRef = FirebaseDatabase.instance.ref().child('messages');
   late List<Post> _posts;
 
@@ -43,8 +47,7 @@ class _ViewDataScreenState extends State<ViewDataScreen> {
                 separatorBuilder: ((context, index) =>
                     Divider(color: Colors.grey.shade400)),
                 itemCount: _posts.length,
-                itemBuilder: (context, index) =>
-                    buildPostTile(_posts[index]));
+                itemBuilder: (context, index) => buildPostTile(_posts[index]));
           }),
     ));
   }

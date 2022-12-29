@@ -143,6 +143,11 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
               ? messageTextFormController
               : nameTextFormController,
           cursorColor: Colors.white,
+          onFieldSubmitted: (value) {
+            if (context.read<ButtonTextProvider>().hasTextInFormFields) {
+              _postNameAndMessage();
+            }
+          },
           textAlignVertical: TextAlignVertical.center,
           decoration: InputDecoration(
               isDense: true,

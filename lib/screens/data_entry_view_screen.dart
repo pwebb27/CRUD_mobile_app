@@ -215,6 +215,23 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
               )),
         ),
       );
+  void _showToast(BuildContext context) {
+    final scaffold = ScaffoldMessenger.of(context);
+    scaffold.showSnackBar(
+      SnackBar(
+        
+        backgroundColor: Theme.of(context).primaryColor,
+        content:  Row(
+          children: const [
+            Icon(Icons.message,color: Colors.white,size:18),
+             SizedBox(width: 15),
+             Text('Message Posted'),
+          ],
+        ),
+       
+      ),
+    );
+  }
 
   void _postNameAndMessage() {
     _crudDatabaseReference.push().set({
@@ -223,6 +240,7 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
     });
     nameTextFormController.clear();
     messageTextFormController.clear();
+    _showToast(context);
   }
 
   @override

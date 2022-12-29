@@ -108,10 +108,10 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
                 child: Column(children: [
                   const SizedBox(height: 30),
                   ListView(shrinkWrap: true, children: [
-                        _buildOpacityAndPaddingAnimation(
-                            child: _buildFormField(FieldDataType.name)),
-                        _buildOpacityAndPaddingAnimation(
-                            child: _buildFormField(FieldDataType.message))
+                    _buildOpacityAndPaddingAnimation(
+                        child: _buildFormField(FieldDataType.name)),
+                    _buildOpacityAndPaddingAnimation(
+                        child: _buildFormField(FieldDataType.message))
                   ]),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 15.0, top: 25),
@@ -178,20 +178,13 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
           child: InkWell(
               borderRadius: BorderRadius.circular(10),
               //Increase size of button on tap down
-              onTapDown: ((details) {
-                _buttonAnimationController.forward();
-              }),
+              onTapDown: ((_) => _buttonAnimationController.forward()),
               //Decrease size of button on tap up and tap cancel
               onTapCancel: () => _buttonAnimationController.reverse(),
-              onTapUp: (details) {
+              onTapUp: (_) {
                 _buttonAnimationController.reverse();
                 if (context.read<ButtonTextProvider>().hasTextInFormFields) {
-                  _crudDatabaseReference.push().set({
-                    'name': nameTextFormController.text,
-                    'message': messageTextFormController.text,
-                  });
-                  nameTextFormController.clear();
-                  messageTextFormController.clear();
+                  _postNameAndMessage();
                 }
               },
               child: Container(
@@ -205,8 +198,8 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
                         color: !context
-                                    .watch<ButtonTextProvider>()
-                                    .hasTextInFormFields
+                                .watch<ButtonTextProvider>()
+                                .hasTextInFormFields
                             ? Colors.grey.shade500
                             : Colors.black),
                   ),
@@ -214,6 +207,15 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
               )),
         ),
       );
+
+  void _postNameAndMessage() {
+    _crudDatabaseReference.push().set({
+      'name': nameTextFormController.text,
+      'message': messageTextFormController.text,
+    });
+    nameTextFormController.clear();
+    messageTextFormController.clear();
+  }
 
   @override
   void dispose() {

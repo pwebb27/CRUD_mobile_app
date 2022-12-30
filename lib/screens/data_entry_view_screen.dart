@@ -183,11 +183,11 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
               floatingLabelStyle: const TextStyle(color: Colors.white),
               enabledBorder: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
-                borderSide: BorderSide(width: 1, color: Colors.white70),
+                borderSide: BorderSide(width: 1.5, color: Colors.white70),
               ),
               focusedBorder: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
-                borderSide: BorderSide(width: 2, color: Colors.white),
+                borderSide: BorderSide(width: 2.5, color: Colors.white),
               ),
               alignLabelWithHint: true,
               labelText:

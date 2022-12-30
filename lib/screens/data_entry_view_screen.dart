@@ -1,4 +1,5 @@
 import 'package:crud_mobile_app/providers/button_text_provider.dart';
+import 'package:crud_mobile_app/providers/focus_node_provider.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_shadow/simple_shadow.dart';
@@ -28,6 +29,9 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
   final TextEditingController messageTextFormController =
       TextEditingController();
 
+  final FocusNode _messageTextFormFieldFocusNode = FocusNode();
+  final FocusNode _nameTextFormFieldFocusNode = FocusNode();
+
   @override
   void initState() {
     super.initState();
@@ -43,6 +47,21 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
       });
     messageTextFormController.addListener(_textFormFieldsTextListener);
     nameTextFormController.addListener(_textFormFieldsTextListener);
+
+    _nameTextFormFieldFocusNode.addListener(() {
+      (_nameTextFormFieldFocusNode.hasFocus)
+          ? context.read<TextFormFieldPrefixIconColorProvider>().namePrefixIconColor = Colors.white
+          : context.read<TextFormFieldPrefixIconColorProvider>().namePrefixIconColor =
+              Colors.white70;
+    });
+
+    _messageTextFormFieldFocusNode.addListener(() {
+      (_messageTextFormFieldFocusNode.hasFocus)
+          ? context.read<TextFormFieldPrefixIconColorProvider>().messagePrefixIconColor =
+              Colors.white
+          : context.read<TextFormFieldPrefixIconColorProvider>().messagePrefixIconColor =
+              Colors.white70;
+    });
   }
 
   void _textFormFieldsTextListener() {
@@ -140,60 +159,65 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
               ),
           child: child);
 
-  Widget _buildFormField(FieldDataType fieldDatatype) => Padding(
-        padding:
-            const EdgeInsets.only(top: 20.0, left: 20, right: 20, bottom: 5),
-        child: TextFormField(
-          style: const TextStyle(
-            color: Colors.white,
-          ),
-          controller: fieldDatatype == FieldDataType.message
-              ? messageTextFormController
-              : nameTextFormController,
-          //Name keyboard action always shows next line symbol
-          textInputAction: fieldDatatype == FieldDataType.name
-              ? TextInputAction.next
-              // Message keyboard action shows previous line symbol if name field empty
-              : nameTextFormController.text == ''
-                  ? TextInputAction.previous
-                  : TextInputAction.done,
-          onFieldSubmitted: (_) {
-            //Always shift focus in name TextFormField
-            (fieldDatatype == FieldDataType.name)
-                ? FocusScope.of(context).nextFocus()
-                :
-                //Go back to name TextFormField from message TextFormField if no text entered
-                (nameTextFormController.text == '')
-                    ? FocusScope.of(context).previousFocus()
-                    //Otherwise hide keyboard
-                    : FocusScope.of(context).unfocus();
-          },
-          cursorColor: Colors.white,
-          textAlignVertical: TextAlignVertical.center,
-          decoration: InputDecoration(
-              isDense: true,
-              prefixIcon: fieldDatatype == FieldDataType.message
-                  ? const Icon(
-                      Icons.message,
-                    )
-                  : const Icon(
-                      Icons.person,
-                    ),
-              labelStyle: const TextStyle(color: Colors.white70),
-              floatingLabelStyle: const TextStyle(color: Colors.white),
-              enabledBorder: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                borderSide: BorderSide(width: 1.5, color: Colors.white70),
-              ),
-              focusedBorder: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                borderSide: BorderSide(width: 2.5, color: Colors.white),
-              ),
-              alignLabelWithHint: true,
-              labelText:
-                  fieldDatatype == FieldDataType.message ? 'Message' : 'Name'),
+  Widget _buildFormField(FieldDataType fieldDatatype) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 20.0, left: 20, right: 20, bottom: 5),
+      child: TextFormField(
+        focusNode: fieldDatatype == FieldDataType.message
+            ? _messageTextFormFieldFocusNode
+            : _nameTextFormFieldFocusNode,
+        style: const TextStyle(
+          color: Colors.white,
         ),
-      );
+        controller: fieldDatatype == FieldDataType.message
+            ? messageTextFormController
+            : nameTextFormController,
+        //Name keyboard action always shows next line symbol
+        textInputAction: fieldDatatype == FieldDataType.name
+            ? TextInputAction.next
+            // Message keyboard action shows previous line symbol if name field empty
+            : nameTextFormController.text == ''
+                ? TextInputAction.previous
+                : TextInputAction.done,
+        onFieldSubmitted: (_) {
+          //Always shift focus in name TextFormField
+          (fieldDatatype == FieldDataType.name)
+              ? FocusScope.of(context).nextFocus()
+              :
+              //Go back to name TextFormField from message TextFormField if no text entered
+              (nameTextFormController.text == '')
+                  ? FocusScope.of(context).previousFocus()
+                  //Otherwise hide keyboard
+                  : FocusScope.of(context).unfocus();
+        },
+        cursorColor: Colors.white,
+        textAlignVertical: TextAlignVertical.center,
+        decoration: InputDecoration(
+            isDense: true,
+            prefixIcon: fieldDatatype == FieldDataType.message
+                ? Icon(Icons.message,
+                    color: context
+                        .watch<TextFormFieldPrefixIconColorProvider>()
+                        .messagePrefixIconColor)
+                : Icon(Icons.person,
+                    color:
+                        context.watch<TextFormFieldPrefixIconColorProvider>().namePrefixIconColor),
+            labelStyle: const TextStyle(color: Colors.white70),
+            floatingLabelStyle: const TextStyle(color: Colors.white),
+            enabledBorder: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              borderSide: BorderSide(width: 1.5, color: Colors.white70),
+            ),
+            focusedBorder: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              borderSide: BorderSide(width: 2.5, color: Colors.white),
+            ),
+            alignLabelWithHint: true,
+            labelText:
+                fieldDatatype == FieldDataType.message ? 'Message' : 'Name'),
+      ),
+    );
+  }
 
   Widget _buildSubmitButton() => Transform.scale(
         scale: context.watch<ButtonSizeProvider>().buttonScale,

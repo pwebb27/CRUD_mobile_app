@@ -1,5 +1,6 @@
 import 'package:crud_mobile_app/providers/button_size_provider.dart';
 import 'package:crud_mobile_app/providers/button_text_provider.dart';
+import 'package:crud_mobile_app/providers/focus_node_provider.dart';
 import 'package:crud_mobile_app/screens/home_tabs_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:wakelock/wakelock.dart';
@@ -14,6 +15,8 @@ Future<void> main() async {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => ButtonTextProvider()),
     ChangeNotifierProvider(create: (_) => ButtonSizeProvider()),
+        ChangeNotifierProvider(create: (_) => TextFormFieldPrefixIconColorProvider()),
+
 
   ], child: MyApp()));
 }

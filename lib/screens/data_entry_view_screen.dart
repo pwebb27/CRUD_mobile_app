@@ -50,17 +50,37 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
 
     _nameTextFormFieldFocusNode.addListener(() {
       (_nameTextFormFieldFocusNode.hasFocus)
-          ? context.read<TextFormFieldPrefixIconColorProvider>().namePrefixIconColor = Colors.white
-          : context.read<TextFormFieldPrefixIconColorProvider>().namePrefixIconColor =
-              Colors.white70;
+          //Change icon white color if focused
+          ? context
+              .read<TextFormFieldPrefixIconColorProvider>()
+              .namePrefixIconColor = Colors.white
+          : () {
+              //Otherwise change to white70
+              context
+                  .read<TextFormFieldPrefixIconColorProvider>()
+                  .namePrefixIconColor = Colors.white70;
+              //Always shift focus to message TextFormField after name TextFormField
+              _nameTextFormFieldFocusNode.nextFocus();
+            };
     });
 
     _messageTextFormFieldFocusNode.addListener(() {
       (_messageTextFormFieldFocusNode.hasFocus)
-          ? context.read<TextFormFieldPrefixIconColorProvider>().messagePrefixIconColor =
-              Colors.white
-          : context.read<TextFormFieldPrefixIconColorProvider>().messagePrefixIconColor =
-              Colors.white70;
+          //Change icon white color if focused
+          ? context
+              .read<TextFormFieldPrefixIconColorProvider>()
+              .messagePrefixIconColor = Colors.white
+          : () {
+              context
+                  //Otherwise change to white70
+                  .read<TextFormFieldPrefixIconColorProvider>()
+                  .messagePrefixIconColor = Colors.white70;
+              (nameTextFormController.text == '')
+                  //Go back to name TextFormField from message TextFormField if no text entered
+                  ? FocusScope.of(context).previousFocus()
+                  //Otherwise hide keyboard
+                  : FocusScope.of(context).unfocus();
+            };
     });
   }
 
@@ -80,7 +100,7 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
           ),
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-                colors: [Color.fromRGBO(2,86,122,1), Colors.black],
+                colors: [Color.fromRGBO(2, 86, 122, 1), Colors.black],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight),
           ),
@@ -88,8 +108,8 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
             Expanded(
                 flex: 2,
                 child: Container(
-                  decoration:  BoxDecoration(
-                    color:Color.fromRGBO(103 , 154, 175, 1),
+                  decoration: BoxDecoration(
+                    color: Color.fromRGBO(103, 154, 175, 1),
                     borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(30),
                         bottomRight: Radius.circular(30)),
@@ -179,17 +199,6 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
             : nameTextFormController.text == ''
                 ? TextInputAction.previous
                 : TextInputAction.done,
-        onFieldSubmitted: (_) {
-          //Always shift focus in name TextFormField
-          (fieldDatatype == FieldDataType.name)
-              ? FocusScope.of(context).nextFocus()
-              :
-              //Go back to name TextFormField from message TextFormField if no text entered
-              (nameTextFormController.text == '')
-                  ? FocusScope.of(context).previousFocus()
-                  //Otherwise hide keyboard
-                  : FocusScope.of(context).unfocus();
-        },
         cursorColor: Colors.white,
         textAlignVertical: TextAlignVertical.center,
         decoration: InputDecoration(
@@ -200,8 +209,9 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
                         .watch<TextFormFieldPrefixIconColorProvider>()
                         .messagePrefixIconColor)
                 : Icon(Icons.person,
-                    color:
-                        context.watch<TextFormFieldPrefixIconColorProvider>().namePrefixIconColor),
+                    color: context
+                        .watch<TextFormFieldPrefixIconColorProvider>()
+                        .namePrefixIconColor),
             labelStyle: const TextStyle(color: Colors.white70),
             floatingLabelStyle: const TextStyle(color: Colors.white),
             enabledBorder: const OutlineInputBorder(
@@ -232,7 +242,9 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
               onTapCancel: () => _buttonAnimationController.reverse(),
               onTapUp: (_) {
                 _buttonAnimationController.reverse();
-                if (context.read<TextFormFieldTextProvider>().hasTextInFormFields) {
+                if (context
+                    .read<TextFormFieldTextProvider>()
+                    .hasTextInFormFields) {
                   _postNameAndMessage();
                 }
               },

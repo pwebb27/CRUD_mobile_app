@@ -1,6 +1,6 @@
-import 'package:crud_mobile_app/providers/button_size_provider.dart';
-import 'package:crud_mobile_app/providers/button_text_provider.dart';
-import 'package:crud_mobile_app/providers/focus_node_provider.dart';
+import 'package:crud_mobile_app/providers/DataEntryViewScreen/button_size_provider.dart';
+import 'package:crud_mobile_app/providers/DataEntryViewScreen/text_form_field_text_provider.dart';
+import 'package:crud_mobile_app/providers/DataEntryViewScreen/text_form_field_prefix_icon_color_provider.dart';
 import 'package:crud_mobile_app/screens/home_tabs_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:wakelock/wakelock.dart';
@@ -13,7 +13,7 @@ Future<void> main() async {
   await Firebase.initializeApp();
 
   runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (_) => ButtonTextProvider()),
+    ChangeNotifierProvider(create: (_) => TextFormFieldTextProvider()),
     ChangeNotifierProvider(create: (_) => ButtonSizeProvider()),
         ChangeNotifierProvider(create: (_) => TextFormFieldPrefixIconColorProvider()),
 

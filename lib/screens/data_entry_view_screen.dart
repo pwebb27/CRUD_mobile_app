@@ -1,10 +1,10 @@
-import 'package:crud_mobile_app/providers/button_text_provider.dart';
-import 'package:crud_mobile_app/providers/focus_node_provider.dart';
+import 'package:crud_mobile_app/providers/DataEntryViewScreen/text_form_field_text_provider.dart';
+import 'package:crud_mobile_app/providers/DataEntryViewScreen/text_form_field_prefix_icon_color_provider.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_shadow/simple_shadow.dart';
 import 'package:provider/provider.dart';
-import 'package:crud_mobile_app/providers/button_size_provider.dart';
+import 'package:crud_mobile_app/providers/DataEntryViewScreen/button_size_provider.dart';
 
 class DataEntryViewScreen extends StatefulWidget {
   const DataEntryViewScreen({super.key});
@@ -65,7 +65,7 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
   }
 
   void _textFormFieldsTextListener() {
-    context.read<ButtonTextProvider>().checkTextInFormFields(
+    context.read<TextFormFieldTextProvider>().checkTextInFormFields(
         messageTextFormController.text, nameTextFormController.text);
   }
 
@@ -232,7 +232,7 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
               onTapCancel: () => _buttonAnimationController.reverse(),
               onTapUp: (_) {
                 _buttonAnimationController.reverse();
-                if (context.read<ButtonTextProvider>().hasTextInFormFields) {
+                if (context.read<TextFormFieldTextProvider>().hasTextInFormFields) {
                   _postNameAndMessage();
                 }
               },
@@ -247,7 +247,7 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
                         color: !context
-                                .watch<ButtonTextProvider>()
+                                .watch<TextFormFieldTextProvider>()
                                 .hasTextInFormFields
                             ? Colors.grey.shade500
                             : Colors.black),

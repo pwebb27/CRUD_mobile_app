@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-//Provider for changing size of button (used for tap inputs)
+//Provider for changing size of button (based on user tap inputs)
 class ButtonSizeProvider extends ChangeNotifier {
   double _buttonScale = 1;
 

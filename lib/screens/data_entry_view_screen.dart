@@ -119,8 +119,8 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
                               .displayLarge!
                               .copyWith(shadows: <Shadow>[
                             const Shadow(
-                              offset: Offset(10.0, 10.0),
-                              blurRadius: 40.0,
+                              offset: Offset(8.0, 8.0),
+                              blurRadius: 45.0,
                               color: Color.fromARGB(255, 0, 0, 0),
                             ),
                           ]),
@@ -130,7 +130,7 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
             Expanded(
               flex: 3,
               child: Column(children: [
-                const SizedBox(height: 30),
+                const SizedBox(height: 15),
                 ListView(shrinkWrap: true, children: [
                   _buildOpacityAndPaddingAnimation(
                       child: _buildFormField(FieldDataType.name)),

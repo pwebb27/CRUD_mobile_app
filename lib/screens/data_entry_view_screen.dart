@@ -80,7 +80,7 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
           ),
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-                colors: [Color.fromRGBO(0, 68, 102, 1), Colors.black],
+                colors: [Color.fromRGBO(2,86,122,1), Colors.black],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight),
           ),
@@ -88,8 +88,8 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
             Expanded(
                 flex: 2,
                 child: Container(
-                  decoration: const BoxDecoration(
-                    color: Color.fromRGBO(0, 119, 179, 1),
+                  decoration:  BoxDecoration(
+                    color:Color.fromRGBO(103 , 154, 175, 1),
                     borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(30),
                         bottomRight: Radius.circular(30)),

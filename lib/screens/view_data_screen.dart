@@ -63,7 +63,7 @@ class _ViewDataScreenState extends State<ViewDataScreen>
           const Padding(
             padding: EdgeInsets.only(right: 25.0),
             child: CircleAvatar(
-              backgroundColor: Color.fromRGBO(0, 119, 179, 1),
+              backgroundColor: Color.fromRGBO(103, 154, 175, 1),
               child: Icon(
                 Icons.person,
                 color: Colors.white,

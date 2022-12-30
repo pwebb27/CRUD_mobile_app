@@ -25,7 +25,6 @@ class MyApp extends StatelessWidget {
   final Future<FirebaseApp> _firebaseApp = Firebase.initializeApp();
   MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     Wakelock.enable();
@@ -37,7 +36,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-            errorColor: const Color.fromRGBO(139, 0, 0, 1),
             textTheme: const TextTheme(
                 titleMedium:
                     TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
@@ -47,7 +45,7 @@ class MyApp extends StatelessWidget {
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
                 )),
-            primaryColor: Color.fromRGBO(0, 68, 102, 1)),
+            primaryColor: const Color.fromRGBO(181,81,13,1)),
         home: FutureBuilder(
             future: _firebaseApp,
             builder: (context, snapshot) {

@@ -39,11 +39,28 @@ class _HomeTabsScreenState extends State<HomeTabsScreen>
               ]),
         ),
         body: TabBarView(
+          physics: const CustomTabBarViewPhysics(),
           controller: _tabController,
           children: const [
             DataEntryViewScreen(),
             ViewDataScreen(),
           ],
         ),
+      );
+}
+
+class CustomTabBarViewPhysics extends ScrollPhysics {
+  const CustomTabBarViewPhysics({ScrollPhysics? parent})
+      : super(parent: parent);
+
+  @override
+  CustomTabBarViewPhysics applyTo(ScrollPhysics? ancestor) =>
+     CustomTabBarViewPhysics(parent: buildParent(ancestor)!);
+
+  @override
+  SpringDescription get spring => const SpringDescription(
+        mass: 100,
+        stiffness: 100,
+        damping: 0.5,
       );
 }

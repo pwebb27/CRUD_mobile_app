@@ -235,7 +235,7 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
           borderSide: BorderSide(width: 2.5, color: Colors.white),
         ),
         alignLabelWithHint: true,
-        labelText: 'Message');
+        labelText: fieldDataType == FieldDataType.message ? 'Message' : 'Name');
   }
 
   Widget _buildSubmitButton() => Transform.scale(

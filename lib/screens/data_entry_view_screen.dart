@@ -235,7 +235,9 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
         scale: context.watch<ButtonSizeProvider>().buttonScale,
         child: Material(
           borderRadius: BorderRadius.circular(10),
-          color: Colors.white,
+          color: !context.watch<TextFormFieldTextProvider>().hasTextInFormFields
+              ? Colors.grey.shade300
+              : Colors.white,
           child: InkWell(
               borderRadius: BorderRadius.circular(10),
               //Increase size of button on tap down
@@ -270,7 +272,7 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
                                 .watch<TextFormFieldTextProvider>()
                                 .hasTextInFormFields
                             ? Colors.grey.shade500
-                            : Colors.black),
+                            : Colors.grey.shade800),
                   ),
                 ),
               )),

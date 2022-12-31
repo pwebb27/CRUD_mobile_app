@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-//Provider for checking if text resides inside available TextFormFields
+//Provider for checking if text resides inside available TextFormFields (used for submit button)
 class TextFormFieldTextProvider extends ChangeNotifier {
   bool _hasTextInFormFields = false;
 

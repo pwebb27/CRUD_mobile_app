@@ -50,38 +50,32 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
     nameTextFormFieldController.addListener(_textFormFieldsTextListener);
 
     _nameTextFormFieldFocusNode.addListener(() {
-      (_nameTextFormFieldFocusNode.hasFocus)
+      if (_nameTextFormFieldFocusNode.hasFocus) {
           //Make icon white if in focus
-          ? context
+        context
               .read<TextFormFieldPrefixIconColorProvider>()
-              .namePrefixIconColor = Colors.white
-          : () {
+            .namePrefixIconColor = Colors.white;
+      } else {
               //Otherwise icon is white70
               context
                   .read<TextFormFieldPrefixIconColorProvider>()
                   .namePrefixIconColor = Colors.white70;
-              //Always shift focus to message TextFormField after name TextFormField
-              _nameTextFormFieldFocusNode.nextFocus();
-            };
+      }
     });
 
     _messageTextFormFieldFocusNode.addListener(() {
-      (_messageTextFormFieldFocusNode.hasFocus)
+      if (_messageTextFormFieldFocusNode.hasFocus) {
           //Make icon white if in focus
-          ? context
+        context
               .read<TextFormFieldPrefixIconColorProvider>()
-              .messagePrefixIconColor = Colors.white
-          : () {
+            .messagePrefixIconColor = Colors.white;
+      } else {
               context
                   //Otherwise icon is white70
                   .read<TextFormFieldPrefixIconColorProvider>()
                   .messagePrefixIconColor = Colors.white70;
-              (nameTextFormFieldController.text == '')
-                  //Go back to name TextFormField from message TextFormField if no text entered
-                  ? FocusScope.of(context).previousFocus()
-                  //Otherwise hide keyboard
-                  : FocusScope.of(context).unfocus();
-            };
+      }
+      ;
     });
   }
 
@@ -194,12 +188,13 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
         controller: fieldDatatype == FieldDataType.message
             ? messageTextFormFieldController
             : nameTextFormFieldController,
-        //Name keyboard action always shows next line symbol
         textInputAction: fieldDatatype == FieldDataType.name
+            //Always go to message TextFormField after name TextFormField
             ? TextInputAction.next
-            // Message keyboard action shows previous line symbol if name field empty
+            //If in messageTextFormField, go to name TextFormField if still empty
             : nameTextFormFieldController.text == ''
                 ? TextInputAction.previous
+                //Otherwise drop keyboard
                 : TextInputAction.done,
         cursorColor: Colors.white,
         textAlignVertical: TextAlignVertical.center,

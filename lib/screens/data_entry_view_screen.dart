@@ -109,8 +109,8 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
                 flex: 2,
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Color.fromRGBO(103, 154, 175, 1),
-                    borderRadius: BorderRadius.only(
+                    color: Theme.of(context).primaryColor,
+                    borderRadius: const BorderRadius.only(
                         bottomLeft: Radius.circular(30),
                         bottomRight: Radius.circular(30)),
                   ),
@@ -268,16 +268,21 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
               )),
         ),
       );
+
   void _showToast(BuildContext context) {
     final scaffold = ScaffoldMessenger.of(context);
     scaffold.showSnackBar(
       SnackBar(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Colors.blue,
         content: Row(
           children: const [
             Icon(Icons.message, color: Colors.white, size: 18),
             SizedBox(width: 15),
-            Text('Message Posted'),
+            Text(
+              'Message Posted',
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            ),
           ],
         ),
       ),

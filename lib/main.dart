@@ -15,9 +15,8 @@ Future<void> main() async {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => TextFormFieldTextProvider()),
     ChangeNotifierProvider(create: (_) => ButtonSizeProvider()),
-        ChangeNotifierProvider(create: (_) => TextFormFieldPrefixIconColorProvider()),
-
-
+    ChangeNotifierProvider(
+        create: (_) => TextFormFieldPrefixIconColorProvider()),
   ], child: MyApp()));
 }
 
@@ -45,7 +44,7 @@ class MyApp extends StatelessWidget {
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
                 )),
-            primaryColor: const Color.fromRGBO(181,81,13,1)),
+            primaryColor: const Color.fromRGBO(103, 154, 175, 1)),
         home: FutureBuilder(
             future: _firebaseApp,
             builder: (context, snapshot) {

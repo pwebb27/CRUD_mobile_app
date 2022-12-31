@@ -26,8 +26,7 @@ class _HomeTabsScreenState extends State<HomeTabsScreen>
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-                             backgroundColor: Color.fromRGBO(103 , 154, 175, 1),
-
+          backgroundColor: Theme.of(context).primaryColor,
           title: const Text('Simple CRUD App'),
           bottom: TabBar(
               controller: _tabController,

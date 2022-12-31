@@ -13,8 +13,9 @@ class _ViewDataScreenState extends State<ViewDataScreen>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
-  
-  final _crudDatabaseRef = FirebaseDatabase.instance.ref().child('messages');
+
+  final _crudDatabaseReference =
+      FirebaseDatabase.instance.ref().child('messages');
   late List<Post> _posts;
 
   @override
@@ -24,11 +25,12 @@ class _ViewDataScreenState extends State<ViewDataScreen>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
         body: Padding(
       padding: const EdgeInsets.only(top: 5.0),
       child: StreamBuilder(
-          stream: _crudDatabaseRef.onValue,
+          stream: _crudDatabaseReference.onValue,
           builder: (context, AsyncSnapshot<DatabaseEvent> snapshot) {
             if (!snapshot.hasData) {
               return const Center(child: CircularProgressIndicator());
@@ -47,7 +49,7 @@ class _ViewDataScreenState extends State<ViewDataScreen>
                 separatorBuilder: ((context, index) =>
                     Divider(color: Colors.grey.shade400)),
                 itemCount: _posts.length,
-                itemBuilder: (context, index) => buildPostTile(_posts[index]));
+                itemBuilder: (context, index) => _PostTile(_posts[index]));
           }),
     ));
   }
@@ -56,8 +58,15 @@ class _ViewDataScreenState extends State<ViewDataScreen>
   void deactivate() {
     super.deactivate();
   }
+}
 
-  Widget buildPostTile(Post post) => Padding(
+class _PostTile extends StatelessWidget {
+  const _PostTile(this.post);
+
+  final Post post;
+
+  @override
+  Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
         child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
           const Padding(

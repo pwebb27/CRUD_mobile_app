@@ -13,7 +13,7 @@ class DataEntryViewScreen extends StatefulWidget {
   State<DataEntryViewScreen> createState() => _DataEntryViewScreenState();
 }
 
-//Enum used for determining TextFormField type
+//Enum used for determining TextFormField type (used for buildTextFormFieldInputDecoration method)
 enum FieldDataType { name, message }
 
 class _DataEntryViewScreenState extends State<DataEntryViewScreen>
@@ -149,9 +149,9 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
                 const SizedBox(height: 15),
                 ListView(shrinkWrap: true, children: [
                   _buildOpacityAndPaddingAnimation(
-                      child: _buildFormField(FieldDataType.name)),
+                      child: _buildNameTextFormField()),
                   _buildOpacityAndPaddingAnimation(
-                      child: _buildFormField(FieldDataType.message))
+                      child: _buildMessageTextFormField())
                 ]),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 15.0, top: 25),
@@ -175,55 +175,67 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
               ),
           child: child);
 
-  Widget _buildFormField(FieldDataType fieldDatatype) {
+  Widget _buildMessageTextFormField() {
     return Padding(
       padding: const EdgeInsets.only(top: 20.0, left: 20, right: 20, bottom: 5),
       child: TextFormField(
-        focusNode: fieldDatatype == FieldDataType.message
-            ? _messageTextFormFieldFocusNode
-            : _nameTextFormFieldFocusNode,
+        focusNode: _messageTextFormFieldFocusNode,
         style: const TextStyle(
           color: Colors.white,
         ),
-        controller: fieldDatatype == FieldDataType.message
-            ? messageTextFormFieldController
-            : nameTextFormFieldController,
-        textInputAction: fieldDatatype == FieldDataType.name
-            //Always go to message TextFormField after name TextFormField
-            ? TextInputAction.next
-            //If in messageTextFormField, go to name TextFormField if still empty
-            : nameTextFormFieldController.text == ''
-                ? TextInputAction.previous
-                //Otherwise drop keyboard
-                : TextInputAction.done,
+        controller: messageTextFormFieldController,
+        textInputAction: nameTextFormFieldController.text == ''
+            ? TextInputAction.previous
+            : TextInputAction.done,
         cursorColor: Colors.white,
         textAlignVertical: TextAlignVertical.center,
-        decoration: InputDecoration(
-            isDense: true,
-            prefixIcon: fieldDatatype == FieldDataType.message
-                ? Icon(Icons.message,
-                    color: context
-                        .watch<TextFormFieldPrefixIconColorProvider>()
-                        .messagePrefixIconColor)
-                : Icon(Icons.person,
-                    color: context
-                        .watch<TextFormFieldPrefixIconColorProvider>()
-                        .namePrefixIconColor),
-            labelStyle: const TextStyle(color: Colors.white70),
-            floatingLabelStyle: const TextStyle(color: Colors.white),
-            enabledBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              borderSide: BorderSide(width: 1.5, color: Colors.white70),
-            ),
-            focusedBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              borderSide: BorderSide(width: 2.5, color: Colors.white),
-            ),
-            alignLabelWithHint: true,
-            labelText:
-                fieldDatatype == FieldDataType.message ? 'Message' : 'Name'),
+        decoration: buildTextFormFieldInputDecoration(FieldDataType.message),
       ),
     );
+  }
+
+  Widget _buildNameTextFormField() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 20.0, left: 20, right: 20, bottom: 5),
+      child: TextFormField(
+          focusNode: _nameTextFormFieldFocusNode,
+          style: const TextStyle(
+            color: Colors.white,
+          ),
+          controller: nameTextFormFieldController,
+          textInputAction: TextInputAction.next,
+          cursorColor: Colors.white,
+          textAlignVertical: TextAlignVertical.center,
+          decoration: buildTextFormFieldInputDecoration(FieldDataType.name)),
+    );
+  }
+
+  //Returns InputDecoration used for both TextFormFields
+  InputDecoration buildTextFormFieldInputDecoration(
+      FieldDataType fieldDataType) {
+    return InputDecoration(
+        isDense: true,
+        prefixIcon: fieldDataType == FieldDataType.message
+            ? Icon(Icons.message,
+                color: context
+                    .watch<TextFormFieldPrefixIconColorProvider>()
+                    .messagePrefixIconColor)
+            : Icon(Icons.person,
+                color: context
+                    .watch<TextFormFieldPrefixIconColorProvider>()
+                    .namePrefixIconColor),
+        labelStyle: const TextStyle(color: Colors.white70),
+        floatingLabelStyle: const TextStyle(color: Colors.white),
+        enabledBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderSide: BorderSide(width: 1.5, color: Colors.white70),
+        ),
+        focusedBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderSide: BorderSide(width: 2.5, color: Colors.white),
+        ),
+        alignLabelWithHint: true,
+        labelText: 'Message');
   }
 
   Widget _buildSubmitButton() => Transform.scale(

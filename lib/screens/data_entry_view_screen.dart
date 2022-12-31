@@ -75,7 +75,6 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
             .read<TextFormFieldPrefixIconColorProvider>()
             .messagePrefixIconColor = Colors.white70;
       }
-      ;
     });
   }
 
@@ -175,25 +174,6 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
               ),
           child: child);
 
-  Widget _buildMessageTextFormField() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 20.0, left: 20, right: 20, bottom: 5),
-      child: TextFormField(
-        focusNode: _messageTextFormFieldFocusNode,
-        style: const TextStyle(
-          color: Colors.white,
-        ),
-        controller: messageTextFormFieldController,
-        textInputAction: nameTextFormFieldController.text == ''
-            ? TextInputAction.previous
-            : TextInputAction.done,
-        cursorColor: Colors.white,
-        textAlignVertical: TextAlignVertical.center,
-        decoration: buildTextFormFieldInputDecoration(FieldDataType.message),
-      ),
-    );
-  }
-
   Widget _buildNameTextFormField() {
     return Padding(
       padding: const EdgeInsets.only(top: 20.0, left: 20, right: 20, bottom: 5),
@@ -207,6 +187,28 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
           cursorColor: Colors.white,
           textAlignVertical: TextAlignVertical.center,
           decoration: buildTextFormFieldInputDecoration(FieldDataType.name)),
+    );
+  }
+
+  Widget _buildMessageTextFormField() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 20.0, left: 20, right: 20, bottom: 5),
+      child: TextFormField(
+        keyboardType: TextInputType.multiline,
+        maxLength: null,
+        maxLines: null,
+        focusNode: _messageTextFormFieldFocusNode,
+        style: const TextStyle(
+          color: Colors.white,
+        ),
+        controller: messageTextFormFieldController,
+        textInputAction: nameTextFormFieldController.text == ''
+            ? TextInputAction.previous
+            : TextInputAction.done,
+        cursorColor: Colors.white,
+        textAlignVertical: TextAlignVertical.center,
+        decoration: buildTextFormFieldInputDecoration(FieldDataType.message),
+      ),
     );
   }
 

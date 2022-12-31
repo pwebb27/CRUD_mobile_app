@@ -46,40 +46,40 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
         context.read<ButtonSizeProvider>().buttonScale =
             1 + _buttonAnimationController.value;
       });
-    messageTextFormFieldController.addListener(_textFormFieldsTextListener);
-    nameTextFormFieldController.addListener(_textFormFieldsTextListener);
+    messageTextFormFieldController.addListener(_textEditingControllersListener);
+    nameTextFormFieldController.addListener(_textEditingControllersListener);
 
     _nameTextFormFieldFocusNode.addListener(() {
       if (_nameTextFormFieldFocusNode.hasFocus) {
-          //Make icon white if in focus
+        //Make icon white if in focus
         context
-              .read<TextFormFieldPrefixIconColorProvider>()
+            .read<TextFormFieldPrefixIconColorProvider>()
             .namePrefixIconColor = Colors.white;
       } else {
-              //Otherwise icon is white70
-              context
-                  .read<TextFormFieldPrefixIconColorProvider>()
-                  .namePrefixIconColor = Colors.white70;
+        //Otherwise icon is white70
+        context
+            .read<TextFormFieldPrefixIconColorProvider>()
+            .namePrefixIconColor = Colors.white70;
       }
     });
 
     _messageTextFormFieldFocusNode.addListener(() {
       if (_messageTextFormFieldFocusNode.hasFocus) {
-          //Make icon white if in focus
+        //Make icon white if in focus
         context
-              .read<TextFormFieldPrefixIconColorProvider>()
+            .read<TextFormFieldPrefixIconColorProvider>()
             .messagePrefixIconColor = Colors.white;
       } else {
-              context
-                  //Otherwise icon is white70
-                  .read<TextFormFieldPrefixIconColorProvider>()
-                  .messagePrefixIconColor = Colors.white70;
+        context
+            //Otherwise icon is white70
+            .read<TextFormFieldPrefixIconColorProvider>()
+            .messagePrefixIconColor = Colors.white70;
       }
       ;
     });
   }
 
-  void _textFormFieldsTextListener() {
+  void _textEditingControllersListener() {
     context.read<TextFormFieldTextProvider>().checkTextInFormFields(
         messageTextFormFieldController.text, nameTextFormFieldController.text);
   }

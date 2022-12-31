@@ -6,7 +6,7 @@ class TextFormFieldTextProvider extends ChangeNotifier {
 
   bool get hasTextInFormFields => _hasTextInFormFields;
 
-  //Method for setting hasTextInFormFields based on whether both TextFormFields have text input
+  //Set hasTextInFormFields based on whether both TextFormFields have text input
   void checkTextInFormFields(String messageText, String nameText) {
     (nameText != '' && messageText != '')
         ? _hasTextInFormFields = true

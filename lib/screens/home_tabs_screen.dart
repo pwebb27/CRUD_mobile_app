@@ -24,6 +24,7 @@ class _HomeTabsScreenState extends State<HomeTabsScreen>
 
   @override
   Widget build(BuildContext context) => Scaffold(
+        //Used to show background container color when keyboard drops
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           backgroundColor: Theme.of(context).primaryColor,
@@ -55,7 +56,7 @@ class CustomTabBarViewPhysics extends ScrollPhysics {
 
   @override
   CustomTabBarViewPhysics applyTo(ScrollPhysics? ancestor) =>
-     CustomTabBarViewPhysics(parent: buildParent(ancestor)!);
+      CustomTabBarViewPhysics(parent: buildParent(ancestor)!);
 
   @override
   SpringDescription get spring => const SpringDescription(

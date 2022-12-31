@@ -13,6 +13,7 @@ class DataEntryViewScreen extends StatefulWidget {
   State<DataEntryViewScreen> createState() => _DataEntryViewScreenState();
 }
 
+//Enum used for determining TextFormField type
 enum FieldDataType { name, message }
 
 class _DataEntryViewScreenState extends State<DataEntryViewScreen>
@@ -24,18 +25,18 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
       FirebaseDatabase.instance.ref().child('messages');
   late final AnimationController _buttonAnimationController;
 
-  //Controllers for monitoring text input of form's TextFormFields
-  final TextEditingController nameTextFormController = TextEditingController();
-  final TextEditingController messageTextFormController =
-      TextEditingController();
+  //For monitoring text input of TextFormFields
+  final TextEditingController nameTextFormFieldController =
+          TextEditingController(),
+      messageTextFormFieldController = TextEditingController();
 
-  final FocusNode _messageTextFormFieldFocusNode = FocusNode();
-  final FocusNode _nameTextFormFieldFocusNode = FocusNode();
+  final FocusNode _messageTextFormFieldFocusNode = FocusNode(),
+      _nameTextFormFieldFocusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
-    //Animation used for changing size of button based on tap inputs
+    //For changing size of button based on tap inputs
     _buttonAnimationController = AnimationController(
         duration: const Duration(milliseconds: 50),
         vsync: this,
@@ -45,17 +46,17 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
         context.read<ButtonSizeProvider>().buttonScale =
             1 + _buttonAnimationController.value;
       });
-    messageTextFormController.addListener(_textFormFieldsTextListener);
-    nameTextFormController.addListener(_textFormFieldsTextListener);
+    messageTextFormFieldController.addListener(_textFormFieldsTextListener);
+    nameTextFormFieldController.addListener(_textFormFieldsTextListener);
 
     _nameTextFormFieldFocusNode.addListener(() {
       (_nameTextFormFieldFocusNode.hasFocus)
-          //Change icon white color if focused
+          //Make icon white if in focus
           ? context
               .read<TextFormFieldPrefixIconColorProvider>()
               .namePrefixIconColor = Colors.white
           : () {
-              //Otherwise change to white70
+              //Otherwise icon is white70
               context
                   .read<TextFormFieldPrefixIconColorProvider>()
                   .namePrefixIconColor = Colors.white70;
@@ -66,16 +67,16 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
 
     _messageTextFormFieldFocusNode.addListener(() {
       (_messageTextFormFieldFocusNode.hasFocus)
-          //Change icon white color if focused
+          //Make icon white if in focus
           ? context
               .read<TextFormFieldPrefixIconColorProvider>()
               .messagePrefixIconColor = Colors.white
           : () {
               context
-                  //Otherwise change to white70
+                  //Otherwise icon is white70
                   .read<TextFormFieldPrefixIconColorProvider>()
                   .messagePrefixIconColor = Colors.white70;
-              (nameTextFormController.text == '')
+              (nameTextFormFieldController.text == '')
                   //Go back to name TextFormField from message TextFormField if no text entered
                   ? FocusScope.of(context).previousFocus()
                   //Otherwise hide keyboard
@@ -86,7 +87,7 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
 
   void _textFormFieldsTextListener() {
     context.read<TextFormFieldTextProvider>().checkTextInFormFields(
-        messageTextFormController.text, nameTextFormController.text);
+        messageTextFormFieldController.text, nameTextFormFieldController.text);
   }
 
   @override
@@ -95,6 +96,7 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
     return SingleChildScrollView(
       child: Container(
           constraints: BoxConstraints(
+            //Remove AppBar from container height
             maxHeight: MediaQuery.of(context).size.height -
                 Scaffold.of(context).appBarMaxHeight!.toDouble(),
           ),
@@ -190,13 +192,13 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
           color: Colors.white,
         ),
         controller: fieldDatatype == FieldDataType.message
-            ? messageTextFormController
-            : nameTextFormController,
+            ? messageTextFormFieldController
+            : nameTextFormFieldController,
         //Name keyboard action always shows next line symbol
         textInputAction: fieldDatatype == FieldDataType.name
             ? TextInputAction.next
             // Message keyboard action shows previous line symbol if name field empty
-            : nameTextFormController.text == ''
+            : nameTextFormFieldController.text == ''
                 ? TextInputAction.previous
                 : TextInputAction.done,
         cursorColor: Colors.white,
@@ -245,7 +247,13 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
                 if (context
                     .read<TextFormFieldTextProvider>()
                     .hasTextInFormFields) {
-                  _postNameAndMessage();
+                  _crudDatabaseReference.push().set({
+                    'name': nameTextFormFieldController.text,
+                    'message': messageTextFormFieldController.text,
+                  });
+                  nameTextFormFieldController.clear();
+                  messageTextFormFieldController.clear();
+                  _showToast(context);
                 }
               },
               child: Container(
@@ -289,21 +297,11 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
     );
   }
 
-  void _postNameAndMessage() {
-    _crudDatabaseReference.push().set({
-      'name': nameTextFormController.text,
-      'message': messageTextFormController.text,
-    });
-    nameTextFormController.clear();
-    messageTextFormController.clear();
-    _showToast(context);
-  }
-
   @override
   void dispose() {
     _buttonAnimationController.dispose();
-    nameTextFormController.dispose();
-    messageTextFormController.dispose();
+    nameTextFormFieldController.dispose();
+    messageTextFormFieldController.dispose();
     super.dispose();
   }
 }

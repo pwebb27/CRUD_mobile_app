@@ -202,9 +202,7 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
           color: Colors.white,
         ),
         controller: messageTextFormFieldController,
-        textInputAction: nameTextFormFieldController.text == ''
-            ? TextInputAction.previous
-            : TextInputAction.done,
+        textInputAction: TextInputAction.newline,
         cursorColor: Colors.white,
         textAlignVertical: TextAlignVertical.center,
         decoration: buildTextFormFieldInputDecoration(FieldDataType.message),

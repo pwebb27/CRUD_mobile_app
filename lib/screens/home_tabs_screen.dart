@@ -9,33 +9,59 @@ class HomeTabsScreen extends StatefulWidget {
   State<HomeTabsScreen> createState() => _HomeTabsScreenState();
 }
 
-class _HomeTabsScreenState extends State<HomeTabsScreen> {
+class _HomeTabsScreenState extends State<HomeTabsScreen>
+    with TickerProviderStateMixin {
+  late final TabController _tabController;
+
   @override
   void initState() {
+    _tabController = TabController(length: 2, vsync: this)
+      ..addListener(() {
+        if (_tabController.indexIsChanging) FocusScope.of(context).unfocus();
+      });
     super.initState();
   }
 
   @override
-  Widget build(BuildContext context) => DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
+  Widget build(BuildContext context) => Scaffold(
+        //Used to show background container color when keyboard drops
+        backgroundColor: Colors.transparent,
         appBar: AppBar(
-          backgroundColor: const Color.fromRGBO(0, 119, 179,1),
+          backgroundColor: Theme.of(context).primaryColor,
           title: const Text('Simple CRUD App'),
-          bottom: const TabBar(tabs: <Widget>[
-            Tab(child: Text('Data Entry')),
-            Tab(
-              child: Text('Messages'),
-            )
-          ]),
+          bottom: TabBar(
+              controller: _tabController,
+              indicatorColor: Colors.white,
+              tabs: const <Tab>[
+                Tab(child: Text('Data Entry')),
+                Tab(
+                  child: Text('Messages'),
+                )
+              ]),
         ),
-        body: const TabBarView(
-            children: [
-              DataEntryViewScreen(),
-              ViewDataScreen(),
-            ],
-          ),
+        body: TabBarView(
+          physics: const CustomTabBarViewPhysics(),
+          controller: _tabController,
+          children: const [
+            DataEntryViewScreen(),
+            ViewDataScreen(),
+          ],
         ),
+      );
+}
+
+class CustomTabBarViewPhysics extends ScrollPhysics {
+  const CustomTabBarViewPhysics({ScrollPhysics? parent})
+      : super(parent: parent);
+
+  @override
+  CustomTabBarViewPhysics applyTo(ScrollPhysics? ancestor) =>
+      CustomTabBarViewPhysics(parent: buildParent(ancestor)!);
+
+  @override
+  SpringDescription get spring => const SpringDescription(
+        mass: 100,
+        stiffness: 100,
+        damping: 0.5,
       );
 }

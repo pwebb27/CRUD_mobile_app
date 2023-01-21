@@ -2,7 +2,9 @@ class Post {
   final String name;
   final String message;
 
-  Post.fromRealTimeDatabase(Map<dynamic, dynamic> data)
-      : name = data['name'],
-        message = data['message'];
+  Post(this.name, this.message);
+
+  factory Post.fromRealTimeDatabase(Map<dynamic, dynamic> data) {
+    return Post(data['name'], data['message']);
+  }
 }

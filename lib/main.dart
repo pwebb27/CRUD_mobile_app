@@ -1,4 +1,6 @@
-import 'package:crud_mobile_app/providers/button_text_provider.dart';
+import 'package:crud_mobile_app/providers/DataEntryViewScreen/button_size_provider.dart';
+import 'package:crud_mobile_app/providers/DataEntryViewScreen/text_form_field_text_provider.dart';
+import 'package:crud_mobile_app/providers/DataEntryViewScreen/text_form_field_prefix_icon_color_provider.dart';
 import 'package:crud_mobile_app/screens/home_tabs_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:wakelock/wakelock.dart';
@@ -11,7 +13,10 @@ Future<void> main() async {
   await Firebase.initializeApp();
 
   runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (_) => ButtonTextProvider()),
+    ChangeNotifierProvider(create: (_) => TextFormFieldTextProvider()),
+    ChangeNotifierProvider(create: (_) => ButtonSizeProvider()),
+    ChangeNotifierProvider(
+        create: (_) => TextFormFieldPrefixIconColorProvider()),
   ], child: MyApp()));
 }
 
@@ -19,27 +24,27 @@ class MyApp extends StatelessWidget {
   final Future<FirebaseApp> _firebaseApp = Firebase.initializeApp();
   MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    Wakelock.enable();
+
     SystemChrome.setPreferredOrientations([
-        DeviceOrientation.portraitUp,
-        DeviceOrientation.portraitDown,
-      ]);
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          errorColor: const Color.fromRGBO(139, 0, 0, 1),
-          textTheme: const TextTheme(
-              titleMedium: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-              bodyMedium: TextStyle(fontSize: 14),
-              displayLarge: TextStyle(
-                color: Colors.white,
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-              )),
-          primaryColor: Color.fromRGBO(0, 68, 102, 1)
-        ),
+            textTheme: const TextTheme(
+                titleMedium:
+                    TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                bodyMedium: TextStyle(fontSize: 14),
+                displayLarge: TextStyle(
+                  color: Colors.white,
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                )),
+            primaryColor: const Color.fromRGBO(103, 154, 175, 1)),
         home: FutureBuilder(
             future: _firebaseApp,
             builder: (context, snapshot) {

@@ -256,13 +256,16 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
                 if (context
                     .read<TextFormFieldTextProvider>()
                     .hasTextInFormFields) {
-                  _crudDatabaseReference.push().set({
-                    'name': nameTextFormFieldController.text,
-                    'message': messageTextFormFieldController.text,
-                  });
-                  nameTextFormFieldController.clear();
-                  messageTextFormFieldController.clear();
-                  _showToast(context);
+                  () async {
+                    await _crudDatabaseReference.push().set({
+                      'name': nameTextFormFieldController.text,
+                      'message': messageTextFormFieldController.text,
+                    }).then((_) {
+                      nameTextFormFieldController.clear();
+                      messageTextFormFieldController.clear();
+                      _showToast(context);
+                    });
+                  };
                 }
               },
               child: Container(

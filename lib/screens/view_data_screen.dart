@@ -39,7 +39,9 @@ class _ViewDataScreenState extends State<ViewDataScreen>
               final Map<dynamic, dynamic> postsMap =
                   snapshot.data!.snapshot.value as dynamic;
               _posts = [];
-
+              if (postsMap == null) {
+                return const _NoPostsWidget();
+              }
               postsMap.forEach((key, value) {
                 _posts.add(
                     Post.fromRealTimeDatabase(value as Map<dynamic, dynamic>));
@@ -57,6 +59,32 @@ class _ViewDataScreenState extends State<ViewDataScreen>
   @override
   void deactivate() {
     super.deactivate();
+  }
+}
+
+class _NoPostsWidget extends StatelessWidget {
+  const _NoPostsWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.center,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.markunread_mailbox_outlined,
+              size: 150, color: Colors.grey.shade300),
+          const SizedBox(height: 10),
+          Text('No posts to display',
+              style: TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey.shade400))
+        ],
+      ),
+    );
   }
 }
 

@@ -106,6 +106,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     Wakelock.enable();
 
+    //Application only operates in potrait mode
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,

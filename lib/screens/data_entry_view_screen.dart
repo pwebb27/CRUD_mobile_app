@@ -242,7 +242,7 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
         scale: context.watch<ButtonSizeProvider>().buttonScale,
         child: Material(
           borderRadius: BorderRadius.circular(10),
-          color: !context.watch<TextFormFieldTextProvider>().hasTextInFormFields
+          color: !context.watch<TextFormFieldTextProvider>().hasTextInFormFields || context.watch<ConnectivityProvider>().isNetworkOffline
               ? Colors.grey.shade300
               : Colors.white,
           child: InkWell(
@@ -255,8 +255,8 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
                 _buttonAnimationController.reverse();
                 if (context
                     .read<TextFormFieldTextProvider>()
-                    .hasTextInFormFields) {
-                  () async {
+                        .hasTextInFormFields &&
+                    !context.read<ConnectivityProvider>().isNetworkOffline &&
                     await _crudDatabaseReference.push().set({
                       'name': nameTextFormFieldController.text,
                       'message': messageTextFormFieldController.text,
@@ -280,7 +280,7 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
                         fontWeight: FontWeight.bold,
                         color: !context
                                 .watch<TextFormFieldTextProvider>()
-                                .hasTextInFormFields
+                                .hasTextInFormFields || context.watch<ConnectivityProvider>().isNetworkOffline
                             ? Colors.grey.shade500
                             : Colors.grey.shade800),
                   ),

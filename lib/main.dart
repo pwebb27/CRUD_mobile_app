@@ -1,8 +1,8 @@
 import 'dart:async';
-
 import 'package:crud_mobile_app/providers/DataEntryViewScreen/button_size_provider.dart';
 import 'package:crud_mobile_app/providers/DataEntryViewScreen/text_form_field_text_provider.dart';
 import 'package:crud_mobile_app/providers/DataEntryViewScreen/text_form_field_prefix_icon_color_provider.dart';
+import 'package:crud_mobile_app/providers/connectivity_provider.dart';
 import 'package:crud_mobile_app/screens/home_tabs_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:wakelock/wakelock.dart';
@@ -18,13 +18,14 @@ Future<void> main() async {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => TextFormFieldTextProvider()),
     ChangeNotifierProvider(create: (_) => ButtonSizeProvider()),
+    ChangeNotifierProvider(create: (_) => ConnectivityProvider()),
     ChangeNotifierProvider(
         create: (_) => TextFormFieldPrefixIconColorProvider()),
-  ], child: MyApp()));
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatefulWidget {
-  MyApp({super.key});
+  const MyApp({super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -32,57 +33,73 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final Future<FirebaseApp> _firebaseApp = Firebase.initializeApp();
-  final _messangerKey = GlobalKey<ScaffoldMessengerState>();
-
-  late StreamSubscription<ConnectivityResult> subscription;
-
-  late ConnectivityResult? connectionStatus;
+  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+      GlobalKey<ScaffoldMessengerState>();
+  late ConnectivityResult _connectionStatus;
 
   @override
   void initState() {
-    subscription = Connectivity()
+    Connectivity()
         .onConnectivityChanged
-        .listen((ConnectivityResult result) {
-      setState(() {
-        connectionStatus = result;
-        checkInternetConnectivity();
-      });
+        .listen((ConnectivityResult connectivityResult) {
+      _connectionStatus = connectivityResult;
+      _checkInternetConnectivity();
     });
-    checkInitialConnectivity();
+    _checkInitialInternetConnectivity();
     super.initState();
   }
 
-  void checkInitialConnectivity() async {
-    await Connectivity().checkConnectivity().then((result) {
-      connectionStatus = result;
-      checkInternetConnectivity();
+  //Checks initial internet connection upon app load
+  void _checkInitialInternetConnectivity() async {
+    await Connectivity().checkConnectivity().then((connectivityResult) {
+      _connectionStatus = connectivityResult;
+      _checkInternetConnectivity();
     });
   }
 
-  void checkInternetConnectivity() {
-    if (connectionStatus == ConnectivityResult.none ||
-        connectionStatus == null) {
-      _messangerKey.currentState!.showSnackBar(
-        SnackBar(
-          duration: Duration(days: 365),
-          backgroundColor: Colors.blue,
-          content: Row(
-            children: const [
-              Icon(Icons.signal_wifi_statusbar_connected_no_internet_4_sharp,
-                  color: Colors.white, size: 18),
-              SizedBox(width: 15),
-              Text(
-                'Network Offline',
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
-        ),
-      );
+  //Processes connection changes that occur at any point in application
+  void _checkInternetConnectivity() {
+    if (_connectionStatus == ConnectivityResult.none) {
+      scaffoldMessengerKey.currentState!.clearSnackBars();
+      context.read<ConnectivityProvider>().isNetworkOffline = true;
+      scaffoldMessengerKey.currentState!
+          .showSnackBar(_buildConnectivitySnackBar());
     } else {
-      _messangerKey.currentState!.clearSnackBars();
+      if ((_connectionStatus == ConnectivityResult.ethernet ||
+              _connectionStatus == ConnectivityResult.mobile ||
+              _connectionStatus == ConnectivityResult.wifi) &&
+          context.read<ConnectivityProvider>().isNetworkOffline == true) {
+        scaffoldMessengerKey.currentState!.clearSnackBars();
+        context.read<ConnectivityProvider>().isNetworkOffline = false;
+        scaffoldMessengerKey.currentState!
+            .showSnackBar(_buildConnectivitySnackBar());
+      }
     }
+  }
+
+  //Returns SnackBar for informing when internet is offline or when internet connection is restored to be displayed anywhere in app
+  SnackBar _buildConnectivitySnackBar() {
+    bool networkOffline = context.read<ConnectivityProvider>().isNetworkOffline;
+    return SnackBar(
+      duration: networkOffline
+          ? //Infinite SnackBar if offline
+          const Duration(days: 365)
+          : const Duration(seconds: 4),
+      backgroundColor: networkOffline ? Colors.red.shade800 : Colors.green,
+      content: Row(
+        children: [
+          Icon(networkOffline ? Icons.wifi_off_rounded : Icons.wifi,
+              color: Colors.white, size: 22),
+          const SizedBox(width: 15),
+          Text(
+            networkOffline
+                ? 'No Internet connection available'
+                : 'Internet connected',
+            style: const TextStyle(color: Colors.white),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -94,7 +111,7 @@ class _MyAppState extends State<MyApp> {
       DeviceOrientation.portraitDown,
     ]);
     return MaterialApp(
-        scaffoldMessengerKey: _messangerKey,
+        scaffoldMessengerKey: scaffoldMessengerKey,
         title: 'Flutter Demo',
         theme: ThemeData(
             textTheme: const TextTheme(

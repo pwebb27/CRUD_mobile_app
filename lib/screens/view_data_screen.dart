@@ -68,18 +68,7 @@ class _PostTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
-        child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Padding(
-            padding: EdgeInsets.only(right: 25.0),
-            child: CircleAvatar(
-              backgroundColor: Color.fromRGBO(103, 154, 175, 1),
-              child: Icon(
-                Icons.person,
-                color: Colors.white,
-              ),
-            ),
-          ),
-          Expanded(
+        child: Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -96,7 +85,6 @@ class _PostTile extends StatelessWidget {
                 ),
               ],
             ),
-          )
-        ]),
+        ),
       );
 }

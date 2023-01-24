@@ -15,7 +15,7 @@ class _ViewDataScreenState extends State<ViewDataScreen>
   bool get wantKeepAlive => true;
 
   final _crudDatabaseReference =
-      FirebaseDatabase.instance.ref().child('messages');
+      FirebaseDatabase.instance.ref().child('posts');
   late List<Post> _posts;
 
   @override
@@ -97,22 +97,22 @@ class _PostTile extends StatelessWidget {
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
         child: Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 5.0),
-                  child: Text(
-                    post.name,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 5.0),
+                child: Text(
+                  post.name,
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
-                Text(
-                  post.message,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-              ],
-            ),
+              ),
+              Text(
+                post.message,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+            ],
+          ),
         ),
       );
 }

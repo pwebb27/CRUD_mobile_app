@@ -23,7 +23,7 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
   bool get wantKeepAlive => true;
 
   final DatabaseReference _crudDatabaseReference =
-      FirebaseDatabase.instance.ref().child('messages');
+      FirebaseDatabase.instance.ref().child('posts');
   late final AnimationController _buttonAnimationController;
 
   //For monitoring text input of TextFormFields
@@ -249,8 +249,8 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
           color:
               !context.watch<TextFormFieldTextProvider>().hasTextInFormFields ||
                       context.watch<ConnectivityProvider>().isNetworkOffline
-              ? Colors.grey.shade300
-              : Colors.white,
+                  ? Colors.grey.shade300
+                  : Colors.white,
           child: InkWell(
               borderRadius: BorderRadius.circular(10),
               //Increase size of button on tap down
@@ -289,7 +289,7 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
                         color: !context
-                                .watch<TextFormFieldTextProvider>()
+                                    .watch<TextFormFieldTextProvider>()
                                     .hasTextInFormFields ||
                                 context
                                     .watch<ConnectivityProvider>()

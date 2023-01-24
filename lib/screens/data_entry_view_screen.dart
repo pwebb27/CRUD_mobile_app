@@ -1,5 +1,6 @@
 import 'package:crud_mobile_app/providers/DataEntryViewScreen/text_form_field_text_provider.dart';
 import 'package:crud_mobile_app/providers/DataEntryViewScreen/text_form_field_prefix_icon_color_provider.dart';
+import 'package:crud_mobile_app/providers/connectivity_provider.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_shadow/simple_shadow.dart';
@@ -32,6 +33,9 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
 
   final FocusNode _messageTextFormFieldFocusNode = FocusNode(),
       _nameTextFormFieldFocusNode = FocusNode();
+
+  //Determines if post is already trying to upload
+  bool isPostUploading = false;
 
   @override
   void initState() {
@@ -251,22 +255,24 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
               onTapDown: ((_) => _buttonAnimationController.forward()),
               //Decrease size of button on tap up and tap cancel
               onTapCancel: () => _buttonAnimationController.reverse(),
-              onTapUp: (_) {
+              onTapUp: (_) async {
                 _buttonAnimationController.reverse();
                 if (context
-                    .read<TextFormFieldTextProvider>()
+                        .read<TextFormFieldTextProvider>()
                         .hasTextInFormFields &&
                     !context.read<ConnectivityProvider>().isNetworkOffline &&
-                    await _crudDatabaseReference.push().set({
-                      'name': nameTextFormFieldController.text,
-                      'message': messageTextFormFieldController.text,
-                    }).then((_) {
-                      nameTextFormFieldController.clear();
-                      messageTextFormFieldController.clear();
+                    !isPostUploading) {
+                  isPostUploading = true;
+                  await _crudDatabaseReference.push().set({
+                    'name': nameTextFormFieldController.text,
+                    'message': messageTextFormFieldController.text,
+                  }).then((_) {
+                    nameTextFormFieldController.clear();
+                    messageTextFormFieldController.clear();
                       _showToast(context);
-                    });
-                  };
+                  });
                 }
+                ;
               },
               child: Container(
                 height: 60,

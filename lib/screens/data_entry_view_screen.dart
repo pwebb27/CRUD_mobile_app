@@ -269,7 +269,8 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
                   }).then((_) {
                     nameTextFormFieldController.clear();
                     messageTextFormFieldController.clear();
-                      _showToast(context);
+                    _buildSnackBar(context);
+                    isPostUploading = false;
                   });
                 }
                 ;
@@ -295,10 +296,10 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
         ),
       );
 
-  void _showToast(BuildContext context) {
-    final scaffold = ScaffoldMessenger.of(context);
-    scaffold.showSnackBar(
+  void _buildSnackBar(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
+        duration: const Duration(seconds: 4),
         backgroundColor: Colors.blue,
         content: Row(
           children: const [

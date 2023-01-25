@@ -3,6 +3,7 @@ import 'package:crud_mobile_app/providers/DataEntryViewScreen/text_form_field_pr
 import 'package:crud_mobile_app/providers/connectivity_provider.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:simple_shadow/simple_shadow.dart';
 import 'package:provider/provider.dart';
 import 'package:crud_mobile_app/providers/DataEntryViewScreen/button_size_provider.dart';
@@ -36,6 +37,7 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
 
   //Determines if post is already trying to upload
   bool isPostUploading = false;
+  final _toast = FToast();
 
   @override
   void initState() {
@@ -50,6 +52,8 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
         context.read<ButtonSizeProvider>().buttonScale =
             1 + _buttonAnimationController.value;
       });
+
+    _toast.init(context);
     messageTextFormFieldController.addListener(_textEditingControllersListener);
     nameTextFormFieldController.addListener(_textEditingControllersListener);
 
@@ -265,18 +269,22 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
                     !context.read<ConnectivityProvider>().isNetworkOffline &&
                     !isPostUploading) {
                   isPostUploading = true;
-                  await _crudDatabaseReference.push().set({
-                    'name': nameTextFormFieldController.text,
-                    'message': messageTextFormFieldController.text,
-                    'postedDateTime': DateTime.now().toString()
+                  await _crudDatabaseReference
+                      .push()
+                      .set({
+                        'name': nameTextFormFieldController.text,
+                        'message': messageTextFormFieldController.text,
+                        'postedDateTime': DateTime.now().toString()
                   }).then((_) {
-                    nameTextFormFieldController.clear();
-                    messageTextFormFieldController.clear();
-                    _buildSnackBar(context);
-                    isPostUploading = false;
-                  });
+                        nameTextFormFieldController.clear();
+                        messageTextFormFieldController.clear();
+                        _toast.showToast(
+                            child: _buildUnsuccessfulPostToast(),
+                            gravity: ToastGravity.BOTTOM,
+                            toastDuration: const Duration(seconds: 4));
+                        isPostUploading = false;
+                      });
                 }
-                ;
               },
               child: Container(
                 height: 60,
@@ -302,25 +310,45 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
         ),
       );
 
-  void _buildSnackBar(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        duration: const Duration(seconds: 4),
-        backgroundColor: Colors.blue,
-        content: Row(
-          children: const [
-            Icon(Icons.message, color: Colors.white, size: 18),
-            SizedBox(width: 15),
-            Text(
-              'Message Posted',
-              style:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  Widget _buildSuccessfulPostToast() => Padding(
+        padding:  const EdgeInsets.only(bottom: 5.0),
+        child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+            decoration: BoxDecoration(
+                color: Colors.grey.shade600.withOpacity(.5),
+                borderRadius: BorderRadius.circular(25)),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: const [
+                Icon(Icons.check_circle, color: Colors.white, size: 22),
+                SizedBox(width: 10),
+                Text(
+                  'Message posted',
+                  style: TextStyle(color: Colors.white),
+                )
+              ],
+            )),
+      );
+
+  Widget _buildUnsuccessfulPostToast() => Padding(
+        padding: const EdgeInsets.only(bottom: 5.0),
+        child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+            decoration: BoxDecoration(
+                color: Colors.red.shade600.withOpacity(.8),
+                borderRadius: BorderRadius.circular(25)),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: const [
+                Icon(Icons.info_outline, color: Colors.white, size: 22),
+                SizedBox(width: 10),
+                Text(
+                  'An error occurred. Please try again',
+                  style: TextStyle(color: Colors.white),
+                )
+              ],
+            )),
+      );
 
   @override
   void dispose() {

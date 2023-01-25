@@ -115,12 +115,12 @@ class _PostTile extends StatelessWidget {
                     border: Border.all(width: .1, color: Colors.grey.shade500),
                     boxShadow: [
                       BoxShadow(
-                          color: Colors.grey.withOpacity(0.2),
-                          spreadRadius: 2,
-                          blurRadius: 12,
-                          offset: Offset(4, 2))
+                          color: Colors.grey.withOpacity(0.15),
+                          spreadRadius: 1,
+                          blurRadius: 15,
+                          offset: Offset(3, 2))
                     ],
-                    color: Theme.of(context).primaryColor,
+                    color: Colors.grey.shade300,
                     borderRadius: const BorderRadius.only(
                         bottomLeft: Radius.circular(12),
                         bottomRight: Radius.circular(12),
@@ -134,10 +134,10 @@ class _PostTile extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 5),
+                padding: const EdgeInsets.only(left: 8.0, top: 4),
                 child: Text(
                   DateFormat('MM/dd/yy').add_jm().format(post.postedDateTime),
-                  style: TextStyle(color: Colors.grey.shade500, fontSize: 10),
+                  style: TextStyle(color: Colors.grey.shade500, fontSize: 9.5),
                 ),
               )
             ],

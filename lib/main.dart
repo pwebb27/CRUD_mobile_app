@@ -117,8 +117,8 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
             textTheme: const TextTheme(
                 titleMedium:
-                    TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                bodyMedium: TextStyle(fontSize: 14),
+                    TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                bodyMedium: TextStyle(fontSize: 15,color: Colors.white),
                 displayLarge: TextStyle(
                   color: Colors.white,
                   fontSize: 28,

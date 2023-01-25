@@ -1,6 +1,7 @@
 import 'package:crud_mobile_app/models/post.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ViewDataScreen extends StatefulWidget {
   const ViewDataScreen({super.key});
@@ -14,8 +15,7 @@ class _ViewDataScreenState extends State<ViewDataScreen>
   @override
   bool get wantKeepAlive => true;
 
-  final _crudDatabaseReference =
-      FirebaseDatabase.instance.ref().child('posts');
+  final _crudDatabaseReference = FirebaseDatabase.instance.ref().child('posts');
   late List<Post> _posts;
 
   @override
@@ -47,9 +47,7 @@ class _ViewDataScreenState extends State<ViewDataScreen>
                     Post.fromRealTimeDatabase(value as Map<dynamic, dynamic>));
               });
             }
-            return ListView.separated(
-                separatorBuilder: ((context, index) =>
-                    Divider(color: Colors.grey.shade400)),
+            return ListView.builder(
                 itemCount: _posts.length,
                 itemBuilder: (context, index) => _PostTile(_posts[index]));
           }),
@@ -95,22 +93,53 @@ class _PostTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+        padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 25),
         child: Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
                 padding: const EdgeInsets.only(bottom: 5.0),
-                child: Text(
-                  post.name,
-                  style: Theme.of(context).textTheme.titleMedium,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      post.name,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                  ],
                 ),
               ),
-              Text(
-                post.message,
-                style: Theme.of(context).textTheme.bodyMedium,
+              Container(
+                decoration: BoxDecoration(
+                    border: Border.all(width: .1, color: Colors.grey.shade500),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.grey.withOpacity(0.2),
+                          spreadRadius: 2,
+                          blurRadius: 12,
+                          offset: Offset(4, 2))
+                    ],
+                    color: Theme.of(context).primaryColor,
+                    borderRadius: const BorderRadius.only(
+                        bottomLeft: Radius.circular(12),
+                        bottomRight: Radius.circular(12),
+                        topRight: Radius.circular(12))),
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Text(
+                    post.message,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ),
               ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 5),
+                child: Text(
+                  DateFormat('MM/dd/yy').add_jm().format(post.postedDateTime),
+                  style: TextStyle(color: Colors.grey.shade500, fontSize: 10),
+                ),
+              )
             ],
           ),
         ),

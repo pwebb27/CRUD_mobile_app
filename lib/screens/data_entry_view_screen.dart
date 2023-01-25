@@ -273,9 +273,9 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
                       .push()
                       .set({
                         'name': nameTextFormFieldController.text,
-                        'message': messageTextFormFieldController.text,
+                        'message': messageTextFormFieldController.text.trim(),
                         'postedDateTime': DateTime.now().toString()
-                  }).then((_) {
+                      })
                         nameTextFormFieldController.clear();
                         messageTextFormFieldController.clear();
                         _toast.showToast(

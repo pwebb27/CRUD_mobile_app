@@ -48,6 +48,7 @@ class _ViewDataScreenState extends State<ViewDataScreen>
               });
             }
             return ListView.builder(
+              reverse: true,
                 itemCount: _posts.length,
                 itemBuilder: (context, index) => _PostTile(_posts[index]));
           }),

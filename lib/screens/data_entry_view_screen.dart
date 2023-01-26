@@ -1,5 +1,6 @@
 import 'package:crud_mobile_app/providers/DataEntryViewScreen/text_form_field_text_provider.dart';
 import 'package:crud_mobile_app/providers/DataEntryViewScreen/text_form_field_prefix_icon_color_provider.dart';
+import 'package:crud_mobile_app/providers/DataEntryViewScreen/post_uploading_provider.dart';
 import 'package:crud_mobile_app/providers/connectivity_provider.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -35,8 +36,6 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
   final FocusNode _messageTextFormFieldFocusNode = FocusNode(),
       _nameTextFormFieldFocusNode = FocusNode();
 
-  //Determines if post is already trying to upload
-  bool isPostUploading = false;
   final _toast = FToast();
 
   @override
@@ -165,6 +164,18 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
                   child: _buildOpacityAndPaddingAnimation(
                       child: _buildSubmitButton()),
                 ),
+                //Show circular progress indicator below submit button if post upload is delayed
+                if (context.watch<PostUploadProvider>().isPostUploadDelayed)
+                  Column(children: [
+                    const SizedBox(height: 12),
+                    SizedBox(
+                        height: 24,
+                        width: 24,
+                        child: CircularProgressIndicator(
+                          color: Theme.of(context).primaryColor,
+                          strokeWidth: 2,
+                        ))
+                  ])
               ]),
             ),
           ])),
@@ -252,7 +263,8 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
           borderRadius: BorderRadius.circular(10),
           color:
               !context.watch<TextFormFieldTextProvider>().hasTextInFormFields ||
-                      context.watch<ConnectivityProvider>().isNetworkOffline
+                      context.watch<ConnectivityProvider>().isNetworkOffline ||
+                      context.watch<PostUploadProvider>().isPostUploading
                   ? Colors.grey.shade300
                   : Colors.white,
           child: InkWell(
@@ -267,8 +279,14 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
                         .read<TextFormFieldTextProvider>()
                         .hasTextInFormFields &&
                     !context.read<ConnectivityProvider>().isNetworkOffline &&
-                    !isPostUploading) {
-                  isPostUploading = true;
+                    !context.read<PostUploadProvider>().isPostUploading) {
+                  context.read<PostUploadProvider>().isPostUploading = true;
+                  Future.delayed(const Duration(seconds: 2)).then((_) {
+                    if (context.read<PostUploadProvider>().isPostUploading) {
+                      context.read<PostUploadProvider>().isPostUploadDelayed =
+                          true;
+                    }
+                  });
                   await _crudDatabaseReference
                       .push()
                       .set({
@@ -276,13 +294,18 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
                         'message': messageTextFormFieldController.text.trim(),
                         'postedDateTime': DateTime.now().toString()
                       })
+                      .then((_) {
+                        context.read<PostUploadProvider>().isPostUploading =
+                            false;
+                        //Stop CircularProgressIndicator
+                        context.read<PostUploadProvider>().isPostUploadDelayed =
+                            false;
                         nameTextFormFieldController.clear();
                         messageTextFormFieldController.clear();
                         _toast.showToast(
-                            child: _buildUnsuccessfulPostToast(),
+                            child: _buildSuccessfulPostToast(),
                             gravity: ToastGravity.BOTTOM,
                             toastDuration: const Duration(seconds: 4));
-                        isPostUploading = false;
                       });
                 }
               },
@@ -301,7 +324,10 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
                                     .hasTextInFormFields ||
                                 context
                                     .watch<ConnectivityProvider>()
-                                    .isNetworkOffline
+                                    .isNetworkOffline ||
+                                context
+                                    .watch<PostUploadProvider>()
+                                    .isPostUploading
                             ? Colors.grey.shade500
                             : Colors.grey.shade800),
                   ),

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:crud_mobile_app/providers/DataEntryViewScreen/button_size_provider.dart';
 import 'package:crud_mobile_app/providers/DataEntryViewScreen/text_form_field_text_provider.dart';
 import 'package:crud_mobile_app/providers/DataEntryViewScreen/text_form_field_prefix_icon_color_provider.dart';
+import 'package:crud_mobile_app/providers/DataEntryViewScreen/post_uploading_provider.dart';
 import 'package:crud_mobile_app/providers/connectivity_provider.dart';
 import 'package:crud_mobile_app/screens/home_tabs_screen.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,7 @@ Future<void> main() async {
     ChangeNotifierProvider(create: (_) => ConnectivityProvider()),
     ChangeNotifierProvider(
         create: (_) => TextFormFieldPrefixIconColorProvider()),
+    ChangeNotifierProvider(create: (_) => PostUploadProvider()),
   ], child: const MyApp()));
 }
 

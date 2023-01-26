@@ -347,7 +347,7 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
   }
 
   Widget _buildSuccessfulPostToast() => Padding(
-        padding:  const EdgeInsets.only(bottom: 5.0),
+        padding: const EdgeInsets.only(bottom: 5.0),
         child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
             decoration: BoxDecoration(

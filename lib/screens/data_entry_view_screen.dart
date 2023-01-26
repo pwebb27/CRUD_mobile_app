@@ -294,6 +294,11 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
                         'message': messageTextFormFieldController.text.trim(),
                         'postedDateTime': DateTime.now().toString()
                       })
+                      .timeout(const Duration(seconds: 10),
+                          onTimeout: _handlePostTimeoutOrError)
+                      .onError((_, __) {
+                        _handlePostTimeoutOrError();
+                      })
                       .then((_) {
                         context.read<PostUploadProvider>().isPostUploading =
                             false;
@@ -335,6 +340,11 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
               )),
         ),
       );
+  void _handlePostTimeoutOrError() {
+    context.read<PostUploadProvider>().isPostUploading == false;
+    context.read<PostUploadProvider>().isPostUploadDelayed = false;
+    _buildUnsuccessfulPostToast();
+  }
 
   Widget _buildSuccessfulPostToast() => Padding(
         padding:  const EdgeInsets.only(bottom: 5.0),

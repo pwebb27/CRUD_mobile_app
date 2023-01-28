@@ -109,45 +109,48 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
           child: Column(children: [
             Expanded(
                 flex: 2,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
-                    borderRadius: const BorderRadius.only(
-                        bottomLeft: Radius.circular(30),
-                        bottomRight: Radius.circular(30)),
-                  ),
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        _buildOpacityAndPaddingAnimation(
-                          child: SimpleShadow(
-                            opacity: .6,
-                            color: Colors.black,
-                            offset: const Offset(3, 3),
-                            sigma: 7,
-                            child: Image.asset(
-                              'assets/images/flutter-logo.png',
-                              height: 95,
+                child: CustomPaint(
+                  foregroundPainter: MyPainter(),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor,
+                      borderRadius: const BorderRadius.only(
+                          bottomLeft: Radius.circular(30),
+                          bottomRight: Radius.circular(30)),
+                    ),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          _buildOpacityAndPaddingAnimation(
+                            child: SimpleShadow(
+                              opacity: .6,
+                              color: Colors.black,
+                              offset: const Offset(3, 3),
+                              sigma: 7,
+                              child: Image.asset(
+                                'assets/images/flutter-logo.png',
+                                height: 95,
+                              ),
                             ),
                           ),
-                        ),
-                        const SizedBox(height: 25),
-                        _buildOpacityAndPaddingAnimation(
-                            child: Text(
-                          'Enter your name and message',
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context)
-                              .textTheme
-                              .displayLarge!
-                              .copyWith(shadows: <Shadow>[
-                            const Shadow(
-                              offset: Offset(8.0, 8.0),
-                              blurRadius: 45.0,
-                              color: Color.fromARGB(255, 0, 0, 0),
-                            ),
-                          ]),
-                        ))
-                      ]),
+                          const SizedBox(height: 25),
+                          _buildOpacityAndPaddingAnimation(
+                              child: Text(
+                            'Enter your name and message',
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .displayLarge!
+                                .copyWith(shadows: <Shadow>[
+                              const Shadow(
+                                offset: Offset(8.0, 8.0),
+                                blurRadius: 45.0,
+                                color: Color.fromARGB(255, 0, 0, 0),
+                              ),
+                            ]),
+                          ))
+                        ]),
+                  ),
                 )),
             Expanded(
               flex: 3,
@@ -292,7 +295,7 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
                       .set({
                         'name': nameTextFormFieldController.text,
                         'message': messageTextFormFieldController.text.trim(),
-                        'postedDateTime': DateTime.now().toString()
+                        'postedDateTime': ServerValue.timestamp
                       })
                       .timeout(const Duration(seconds: 10),
                           onTimeout: _handlePostTimeoutOrError)
@@ -395,22 +398,33 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
   }
 }
 
-// class MyPainter extends CustomPainter{
-//   class BluePainter extends CustomPainter{
-//     @override
-//     void paint(Canvas canvas, Size size){
-//       final height = size.height;
-//       final width = size.width;
-//       Paint paint = Paint();
+class MyPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final height = size.height;
+    final width = size.width;
+    Paint paint = Paint();
 
-//       Path lineBackground = Path();
-//       lineBackground.moveTo(0, height*.2); 
+    Path lineBackground = Path();
+    lineBackground.moveTo(0, 0);
+    lineBackground.lineTo(height * .15, 0);
+    lineBackground.lineTo(height * .20, 0);
+    lineBackground.lineTo(0, height * .20);
 
-//     }
-//     @override
-//     bool shouldRepaint(CustomPainter() oldDelegate){
-//       return oldDelegate !=this;
-//     }
-//   }
-// }
+    double multiplier = 3;
+    lineBackground.moveTo(0, (height * .30));
+    lineBackground.lineTo((height * .30), 0);
+    lineBackground.lineTo((height * .6), 0);
+    lineBackground.lineTo(0, (height * .6));
 
+
+
+    paint.color = Color.fromRGBO(118 ,164,183,1);
+    canvas.drawPath(lineBackground, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return oldDelegate != this;
+  }
+}

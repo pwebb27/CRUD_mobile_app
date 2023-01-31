@@ -1,63 +1,27 @@
 import 'package:crud_mobile_app/models/post.dart';
-import 'package:firebase_database/firebase_database.dart';
+import 'package:crud_mobile_app/providers/posts_stream_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
-class ViewDataScreen extends StatefulWidget {
+class ViewDataScreen extends StatelessWidget {
   const ViewDataScreen({super.key});
 
   @override
-  State<ViewDataScreen> createState() => _ViewDataScreenState();
-}
-
-class _ViewDataScreenState extends State<ViewDataScreen>
-    with AutomaticKeepAliveClientMixin {
-  @override
-  bool get wantKeepAlive => true;
-
-  final _crudDatabaseReference = FirebaseDatabase.instance.ref().child('posts');
-  late List<Post> _posts;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    super.build(context);
     return Scaffold(
         body: Padding(
-      padding: const EdgeInsets.only(top: 5.0),
-      child: StreamBuilder(
-          stream: _crudDatabaseReference.onValue,
-          builder: (context, AsyncSnapshot<DatabaseEvent> snapshot) {
-            if (!snapshot.hasData) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            if (snapshot.hasData) {
-              final Map<dynamic, dynamic> postsMap =
-                  snapshot.data!.snapshot.value as dynamic;
-              _posts = [];
-              if (postsMap == null) {
-                return const _NoPostsWidget();
-              }
-              postsMap.forEach((key, value) {
-                _posts.add(
-                    Post.fromRealTimeDatabase(value as Map<dynamic, dynamic>));
-              });
-            }
-            return ListView.builder(
-              reverse: true,
-                itemCount: _posts.length,
-                itemBuilder: (context, index) => _PostTile(_posts[index]));
-          }),
-    ));
-  }
-
-  @override
-  void deactivate() {
-    super.deactivate();
+            padding: const EdgeInsets.only(top: 5.0),
+            child: context.watch<PostsStreamProvider>().posts == null
+                ? const Center(child: CircularProgressIndicator())
+                : context.watch<PostsStreamProvider>().posts!.isEmpty
+                    ? const _NoPostsWidget()
+                    : ListView(reverse: true, children: [
+                        ...(context
+                            .watch<PostsStreamProvider>()
+                            .posts!
+                            .map((post) => _PostTile(post)))
+                      ])));
   }
 }
 

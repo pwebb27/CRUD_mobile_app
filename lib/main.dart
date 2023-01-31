@@ -4,6 +4,7 @@ import 'package:crud_mobile_app/providers/DataEntryViewScreen/text_form_field_te
 import 'package:crud_mobile_app/providers/DataEntryViewScreen/text_form_field_prefix_icon_color_provider.dart';
 import 'package:crud_mobile_app/providers/DataEntryViewScreen/post_uploading_provider.dart';
 import 'package:crud_mobile_app/providers/connectivity_provider.dart';
+import 'package:crud_mobile_app/providers/posts_stream_provider.dart';
 import 'package:crud_mobile_app/screens/home_tabs_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:wakelock/wakelock.dart';
@@ -23,6 +24,8 @@ Future<void> main() async {
     ChangeNotifierProvider(
         create: (_) => TextFormFieldPrefixIconColorProvider()),
     ChangeNotifierProvider(create: (_) => PostUploadProvider()),
+    ChangeNotifierProvider(create: (_) => PostsStreamProvider()),
+
   ], child: const MyApp()));
 }
 
@@ -120,7 +123,7 @@ class _MyAppState extends State<MyApp> {
             textTheme: const TextTheme(
                 titleMedium:
                     TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                bodyMedium: TextStyle(fontSize: 15,color: Colors.white),
+                bodyMedium: TextStyle(fontSize: 15, color: Colors.black),
                 displayLarge: TextStyle(
                   color: Colors.white,
                   fontSize: 28,

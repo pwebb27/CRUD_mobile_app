@@ -101,7 +101,7 @@ class _PostTile extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 4),
                 child: Text(
-                  DateFormat('MM/dd/yy').add_jm().format(post.postedDateTime),
+                  DateFormat('MM/dd/yy').add_jm().format(post.timestamp),
                   style: TextStyle(color: Colors.grey.shade500, fontSize: 9.5),
                 ),
               )

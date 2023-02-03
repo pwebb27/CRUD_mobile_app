@@ -295,7 +295,7 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
                       .set({
                         'name': nameTextFormFieldController.text,
                         'message': messageTextFormFieldController.text.trim(),
-                        'postedDateTime': ServerValue.timestamp
+                        'timestamp': ServerValue.timestamp
                       })
                       .timeout(const Duration(seconds: 10),
                           onTimeout: _handlePostTimeoutOrError)

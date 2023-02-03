@@ -1,11 +1,12 @@
 class Post {
   final String name;
   final String message;
-  final DateTime postedDateTime;
+  final DateTime timestamp;
 
-  Post(this.name, this.message, this.postedDateTime);
+  Post(this.name, this.message, this.timestamp);
 
-  factory Post.fromRealTimeDatabase(Map<dynamic, dynamic> data) {
-    return Post(data['name'], data['message'], DateTime.parse(data['postedDateTime']));
+  factory Post.fromRealTimeDatabase(Map<dynamic, dynamic> jsonPost) {
+    return Post(jsonPost['name'], jsonPost['message'],
+        DateTime.fromMillisecondsSinceEpoch(jsonPost['timestamp']));
   }
 }

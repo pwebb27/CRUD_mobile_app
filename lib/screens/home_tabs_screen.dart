@@ -17,7 +17,9 @@ class _HomeTabsScreenState extends State<HomeTabsScreen>
   void initState() {
     _tabController = TabController(length: 2, vsync: this)
       ..addListener(() {
-        if (_tabController.indexIsChanging) FocusScope.of(context).unfocus();
+        if (_tabController.index == 1 && _tabController.previousIndex == 0) {
+          FocusScope.of(context).unfocus();
+        }
       });
     super.initState();
   }

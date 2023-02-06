@@ -155,14 +155,15 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
             Column(children: [
               const SizedBox(height: 15),
               ListView(shrinkWrap: true, children: [
-                _buildOpacityAndPaddingAnimation(child: _buildNameTextFormField()),
+                _buildOpacityAndPaddingAnimation(
+                    child: _buildNameTextFormField()),
                 _buildOpacityAndPaddingAnimation(
                     child: _buildMessageTextFormField())
               ]),
               Padding(
                 padding: const EdgeInsets.only(bottom: 15.0, top: 25),
-                child:
-                    _buildOpacityAndPaddingAnimation(child: _buildSubmitButton()),
+                child: _buildOpacityAndPaddingAnimation(
+                    child: _buildSubmitButton()),
               ),
               //Show circular progress indicator below submit button if post upload is delayed
               if (context.watch<PostUploadProvider>().isPostUploadDelayed)
@@ -196,7 +197,7 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
 
   Widget _buildNameTextFormField() {
     return Padding(
-      padding: const EdgeInsets.only(top: 20.0, left: 20, right: 20, bottom: 5),
+      padding: const EdgeInsets.only(top: 25.0, left: 20, right: 20),
       child: TextFormField(
           focusNode: _nameTextFormFieldFocusNode,
           style: const TextStyle(
@@ -212,7 +213,7 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
 
   Widget _buildMessageTextFormField() {
     return Padding(
-      padding: const EdgeInsets.only(top: 20.0, left: 20, right: 20, bottom: 5),
+      padding: const EdgeInsets.only(top: 25.0, left: 20, right: 20),
       child: TextFormField(
         keyboardType: TextInputType.multiline,
         maxLength: null,

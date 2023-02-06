@@ -93,22 +93,22 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return SingleChildScrollView(
-      child: Container(
-          constraints: BoxConstraints(
-            //Remove AppBar from container height
-            maxHeight: MediaQuery.of(context).size.height -
-                Scaffold.of(context).appBarMaxHeight!.toDouble(),
-          ),
+    return Container(
+    
           decoration: const BoxDecoration(
             gradient: LinearGradient(
                 colors: [Color.fromRGBO(2, 86, 122, 1), Colors.black],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight),
           ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: SingleChildScrollView(
           child: Column(children: [
-            Expanded(
-                flex: 2,
+            SizedBox(
+                height: (MediaQuery.of(context).size.height -
+                        Scaffold.of(context).appBarMaxHeight!.toDouble()) *
+                    .45,
                 child: CustomPaint(
                   foregroundPainter: MyPainter(),
                   child: Container(
@@ -152,36 +152,34 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
                         ]),
                   ),
                 )),
-            Expanded(
-              flex: 3,
-              child: Column(children: [
-                const SizedBox(height: 15),
-                ListView(shrinkWrap: true, children: [
-                  _buildOpacityAndPaddingAnimation(
-                      child: _buildNameTextFormField()),
-                  _buildOpacityAndPaddingAnimation(
-                      child: _buildMessageTextFormField())
-                ]),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 15.0, top: 25),
-                  child: _buildOpacityAndPaddingAnimation(
-                      child: _buildSubmitButton()),
-                ),
-                //Show circular progress indicator below submit button if post upload is delayed
-                if (context.watch<PostUploadProvider>().isPostUploadDelayed)
-                  Column(children: [
-                    const SizedBox(height: 12),
-                    SizedBox(
-                        height: 24,
-                        width: 24,
-                        child: CircularProgressIndicator(
-                          color: Theme.of(context).primaryColor,
-                          strokeWidth: 2,
-                        ))
-                  ])
+            Column( children: [
+              const SizedBox(height: 15),
+              ListView(shrinkWrap: true, children: [
+                _buildOpacityAndPaddingAnimation(child: _buildNameTextFormField()),
+                _buildOpacityAndPaddingAnimation(
+                    child: _buildMessageTextFormField())
               ]),
-            ),
-          ])),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 15.0, top: 25),
+                child:
+                    _buildOpacityAndPaddingAnimation(child: _buildSubmitButton()),
+              ),
+              //Show circular progress indicator below submit button if post upload is delayed
+              if (context.watch<PostUploadProvider>().isPostUploadDelayed)
+                Column(children: [
+                  const SizedBox(height: 12),
+                  SizedBox(
+                      height: 24,
+                      width: 24,
+                      child: CircularProgressIndicator(
+                        color: Theme.of(context).primaryColor,
+                        strokeWidth: 2,
+                      ))
+                ])
+            ]),
+          ]),
+        ),
+      ),
     );
   }
 
@@ -417,9 +415,7 @@ class MyPainter extends CustomPainter {
     lineBackground.lineTo((height * .6), 0);
     lineBackground.lineTo(0, (height * .6));
 
-
-
-    paint.color = Color.fromRGBO(118 ,164,183,1);
+    paint.color = Color.fromRGBO(118, 164, 183, 1);
     canvas.drawPath(lineBackground, paint);
   }
 

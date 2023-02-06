@@ -108,7 +108,7 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
             SizedBox(
                 height: (MediaQuery.of(context).size.height -
                         Scaffold.of(context).appBarMaxHeight!.toDouble()) *
-                    .45,
+                    .4,
                 child: CustomPaint(
                   foregroundPainter: MyPainter(),
                   child: Container(
@@ -309,6 +309,7 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
                             false;
                         nameTextFormFieldController.clear();
                         messageTextFormFieldController.clear();
+                        FocusScope.of(context).unfocus();
                         _toast.showToast(
                             child: _buildSuccessfulPostToast(),
                             gravity: ToastGravity.BOTTOM,

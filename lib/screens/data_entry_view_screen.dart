@@ -94,16 +94,16 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
   Widget build(BuildContext context) {
     super.build(context);
     return Container(
-    
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-                colors: [Color.fromRGBO(2, 86, 122, 1), Colors.black],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight),
-          ),
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+            colors: [Color.fromRGBO(2, 86, 122, 1), Colors.black],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight),
+      ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SingleChildScrollView(
+          reverse: true,
           child: Column(children: [
             SizedBox(
                 height: (MediaQuery.of(context).size.height -
@@ -152,7 +152,7 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
                         ]),
                   ),
                 )),
-            Column( children: [
+            Column(children: [
               const SizedBox(height: 15),
               ListView(shrinkWrap: true, children: [
                 _buildOpacityAndPaddingAnimation(child: _buildNameTextFormField()),

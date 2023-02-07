@@ -154,12 +154,10 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
                 )),
             Column(children: [
               const SizedBox(height: 15),
-              ListView(shrinkWrap: true, children: [
                 _buildOpacityAndPaddingAnimation(
                     child: _buildNameTextFormField()),
                 _buildOpacityAndPaddingAnimation(
-                    child: _buildMessageTextFormField())
-              ]),
+                  child: _buildMessageTextFormField()),
               Padding(
                 padding: const EdgeInsets.only(bottom: 15.0, top: 25),
                 child: _buildOpacityAndPaddingAnimation(

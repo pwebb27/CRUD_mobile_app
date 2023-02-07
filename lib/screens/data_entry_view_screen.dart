@@ -2,6 +2,7 @@ import 'package:crud_mobile_app/providers/DataEntryViewScreen/text_form_field_te
 import 'package:crud_mobile_app/providers/DataEntryViewScreen/text_form_field_prefix_icon_color_provider.dart';
 import 'package:crud_mobile_app/providers/DataEntryViewScreen/post_uploading_provider.dart';
 import 'package:crud_mobile_app/providers/connectivity_provider.dart';
+import 'package:crud_mobile_app/providers/posts_stream_provider.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -51,6 +52,10 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
         context.read<ButtonSizeProvider>().buttonScale =
             1 + _buttonAnimationController.value;
       });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      PostsStreamProvider();
+    });
 
     _toast.init(context);
     messageTextFormFieldController.addListener(_textEditingControllersListener);
@@ -154,9 +159,9 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
                 )),
             Column(children: [
               const SizedBox(height: 15),
-                _buildOpacityAndPaddingAnimation(
-                    child: _buildNameTextFormField()),
-                _buildOpacityAndPaddingAnimation(
+              _buildOpacityAndPaddingAnimation(
+                  child: _buildNameTextFormField()),
+              _buildOpacityAndPaddingAnimation(
                   child: _buildMessageTextFormField()),
               Padding(
                 padding: const EdgeInsets.only(bottom: 15.0, top: 25),

@@ -20,19 +20,23 @@ class _ViewDataScreenState extends State<ViewDataScreen>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      body: Padding(
-          padding: const EdgeInsets.only(top: 5.0),
-          child: context.watch<PostsStreamProvider>().posts == null
+        body: context.watch<PostsStreamProvider>().posts == null
               ? const Center(child: CircularProgressIndicator())
               : context.watch<PostsStreamProvider>().posts!.isEmpty
                   ? const _NoPostsWidget()
-                  : ListView(reverse: true, children: [
-                      ...(context
+                : Scrollbar(
+                    controller: _scrollController,
+                    thickness: 5,
+                    thumbVisibility: true,
+                    child: ListView.builder(
+                      controller: _scrollController,
+                        reverse: true,
+                        itemCount:
+                            context.watch<PostsStreamProvider>().posts!.length,
+                        itemBuilder: (_, index) => _PostTile(context
                           .watch<PostsStreamProvider>()
-                          .posts!
-                          .map((post) => _PostTile(post)))
-                    ])),
-    );
+                            .posts![index])),
+                  ));
   }
 }
 

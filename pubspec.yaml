@@ -40,6 +40,8 @@ dependencies:
   simple_shadow: ^0.3.0
   provider: ^6.0.5
   fluttertoast: ^8.1.2
+  flutter_lorem: ^2.0.0
+
 
 dev_dependencies:
   flutter_test:

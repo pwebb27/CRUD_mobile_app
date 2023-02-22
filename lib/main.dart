@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:crud_mobile_app/providers/DataEntryViewScreen/button_size_provider.dart';
 import 'package:crud_mobile_app/providers/DataEntryViewScreen/text_form_field_text_provider.dart';
 import 'package:crud_mobile_app/providers/DataEntryViewScreen/text_form_field_prefix_icon_color_provider.dart';
@@ -6,7 +7,9 @@ import 'package:crud_mobile_app/providers/DataEntryViewScreen/post_uploading_pro
 import 'package:crud_mobile_app/providers/connectivity_provider.dart';
 import 'package:crud_mobile_app/providers/posts_stream_provider.dart';
 import 'package:crud_mobile_app/screens/home_tabs_screen.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_lorem/flutter_lorem.dart';
 import 'package:wakelock/wakelock.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -25,7 +28,6 @@ Future<void> main() async {
         create: (_) => TextFormFieldPrefixIconColorProvider()),
     ChangeNotifierProvider(create: (_) => PostUploadProvider()),
     ChangeNotifierProvider(create: (_) => PostsStreamProvider()),
-
   ], child: const MyApp()));
 }
 
@@ -51,6 +53,8 @@ class _MyAppState extends State<MyApp> {
       _checkInternetConnectivity();
     });
     _checkInitialInternetConnectivity();
+    FirebaseDatabase.instance.setPersistenceEnabled(true);
+
     super.initState();
   }
 

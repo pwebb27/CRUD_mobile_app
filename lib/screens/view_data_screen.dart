@@ -1,4 +1,5 @@
 import 'package:crud_mobile_app/models/post.dart';
+import 'package:crud_mobile_app/providers/DataEntryViewScreen/FloatingActionButtonProvider.dart';
 import 'package:crud_mobile_app/providers/posts_stream_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -24,16 +25,33 @@ class _ViewDataScreenState extends State<ViewDataScreen>
           _scrollController.position.pixels) {
         context.read<PostsStreamProvider>().getAdditionalPosts();
       }
+      (_scrollController.offset >
+              MediaQuery.of(context).size.height -
+                  Scaffold.of(context).appBarMaxHeight!.toDouble())
+          ? context.read<FloatingActionButtonProvider>().isVisible = true
+          : context.read<FloatingActionButtonProvider>().isVisible = false;
     });
     super.initState();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
+        floatingActionButton: Visibility(
+          visible: context.watch<FloatingActionButtonProvider>().isVisible,
+          child: FloatingActionButton(
+              mini: true,
+              backgroundColor: Theme.of(context).primaryColor,
+              onPressed: () {
+                _scrollController.jumpTo(0);
+              },
+              child: const Icon(
+                Icons.arrow_drop_down,
+                size: 35,
+                color: Colors.white,
+              )),
+        ),
         body: context.watch<PostsStreamProvider>().posts == null
             ? const Center(child: CircularProgressIndicator())
             : context.watch<PostsStreamProvider>().posts!.isEmpty
@@ -43,7 +61,7 @@ class _ViewDataScreenState extends State<ViewDataScreen>
                     thickness: 5,
                     thumbVisibility: true,
                     child: ListView.builder(
-                      controller: _scrollController,
+                        controller: _scrollController,
                         reverse: true,
                         itemCount:
                             context.watch<PostsStreamProvider>().posts!.length,

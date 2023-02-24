@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:crud_mobile_app/providers/DataEntryViewScreen/FloatingActionButtonProvider.dart';
 import 'package:crud_mobile_app/providers/DataEntryViewScreen/button_size_provider.dart';
 import 'package:crud_mobile_app/providers/DataEntryViewScreen/text_form_field_text_provider.dart';
 import 'package:crud_mobile_app/providers/DataEntryViewScreen/text_form_field_prefix_icon_color_provider.dart';
@@ -28,6 +29,8 @@ Future<void> main() async {
         create: (_) => TextFormFieldPrefixIconColorProvider()),
     ChangeNotifierProvider(create: (_) => PostUploadProvider()),
     ChangeNotifierProvider(create: (_) => PostsStreamProvider()),
+    ChangeNotifierProvider(create: (_) => FloatingActionButtonProvider()),
+
   ], child: const MyApp()));
 }
 

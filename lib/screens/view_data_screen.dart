@@ -15,15 +15,29 @@ class _ViewDataScreenState extends State<ViewDataScreen>
     with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    _scrollController.addListener(() {
+      if (_scrollController.position.maxScrollExtent ==
+          _scrollController.position.pixels) {
+        context.read<PostsStreamProvider>().getAdditionalPosts();
+      }
+    });
+    super.initState();
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
         body: context.watch<PostsStreamProvider>().posts == null
-              ? const Center(child: CircularProgressIndicator())
-              : context.watch<PostsStreamProvider>().posts!.isEmpty
-                  ? const _NoPostsWidget()
+            ? const Center(child: CircularProgressIndicator())
+            : context.watch<PostsStreamProvider>().posts!.isEmpty
+                ? const _NoPostsWidget()
                 : Scrollbar(
                     controller: _scrollController,
                     thickness: 5,
@@ -34,7 +48,7 @@ class _ViewDataScreenState extends State<ViewDataScreen>
                         itemCount:
                             context.watch<PostsStreamProvider>().posts!.length,
                         itemBuilder: (_, index) => _PostTile(context
-                          .watch<PostsStreamProvider>()
+                            .watch<PostsStreamProvider>()
                             .posts![index])),
                   ));
   }
@@ -115,7 +129,8 @@ class _PostTile extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 8.0, top: 4),
               child: Text(
-                DateFormat('MM/dd/yy').add_jm().format(post.timestamp),
+                DateFormat('MM/dd/yy').add_jm().format(
+                    DateTime.fromMillisecondsSinceEpoch(post.timestamp)),
                 style: TextStyle(color: Colors.grey.shade500, fontSize: 9.5),
               ),
             )

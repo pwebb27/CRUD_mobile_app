@@ -1,5 +1,5 @@
 import 'package:crud_mobile_app/models/post.dart';
-import 'package:crud_mobile_app/providers/DataEntryViewScreen/FloatingActionButtonProvider.dart';
+import 'package:crud_mobile_app/providers/ViewDataScreenProviders/FloatingActionButtonProvider.dart';
 import 'package:crud_mobile_app/providers/posts_stream_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -25,11 +25,17 @@ class _ViewDataScreenState extends State<ViewDataScreen>
           _scrollController.position.pixels) {
         context.read<PostsStreamProvider>().getAdditionalPosts();
       }
-      (_scrollController.offset >
-              MediaQuery.of(context).size.height -
-                  Scaffold.of(context).appBarMaxHeight!.toDouble())
-          ? context.read<FloatingActionButtonProvider>().isVisible = true
-          : context.read<FloatingActionButtonProvider>().isVisible = false;
+      if (_scrollController.offset >
+          MediaQuery.of(context).size.height -
+              Scaffold.of(context).appBarMaxHeight!.toDouble()) {
+        if (context.read<FloatingActionButtonProvider>().isVisible == false) {
+          context.read<FloatingActionButtonProvider>().isVisible = true;
+        }
+      } else {
+        if (context.read<FloatingActionButtonProvider>().isVisible == true) {
+          context.read<FloatingActionButtonProvider>().isVisible = false;
+        }
+      }
     });
     super.initState();
   }

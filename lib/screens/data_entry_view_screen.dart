@@ -1,10 +1,14 @@
+import 'dart:math';
+
 import 'package:crud_mobile_app/providers/DataEntryViewScreen/text_form_field_text_provider.dart';
 import 'package:crud_mobile_app/providers/DataEntryViewScreen/text_form_field_prefix_icon_color_provider.dart';
 import 'package:crud_mobile_app/providers/DataEntryViewScreen/post_uploading_provider.dart';
 import 'package:crud_mobile_app/providers/connectivity_provider.dart';
 import 'package:crud_mobile_app/providers/posts_stream_provider.dart';
+import 'package:faker/faker.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_lorem/flutter_lorem.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:simple_shadow/simple_shadow.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +23,8 @@ class DataEntryViewScreen extends StatefulWidget {
 
 //Enum used for determining TextFormField type (used for buildTextFormFieldInputDecoration method)
 enum FieldDataType { name, message }
+
+Faker faker = Faker();
 
 class _DataEntryViewScreenState extends State<DataEntryViewScreen>
     with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
@@ -53,10 +59,6 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
             1 + _buttonAnimationController.value;
       });
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      PostsStreamProvider();
-    });
-
     _toast.init(context);
     messageTextFormFieldController.addListener(_textEditingControllersListener);
     nameTextFormFieldController.addListener(_textEditingControllersListener);
@@ -88,6 +90,7 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
             .messagePrefixIconColor = Colors.white70;
       }
     });
+    WidgetsBinding.instance.addPostFrameCallback((_) {});
   }
 
   void _textEditingControllersListener() {
@@ -163,12 +166,24 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
                   child: _buildNameTextFormField()),
               _buildOpacityAndPaddingAnimation(
                   child: _buildMessageTextFormField()),
+              SizedBox(
+                height: 18,
+              ),
+              GestureDetector(
+                  onTap: () => _populateTextFormFieldsWithLoremIpsum(),
+                  child: Text('Generate Lorem Ipsum',
+                      style: TextStyle(
+                          color: Colors.grey.shade300,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500))),
+
               Padding(
-                padding: const EdgeInsets.only(bottom: 15.0, top: 25),
+                padding: const EdgeInsets.only(bottom: 15.0, top: 18),
                 child: _buildOpacityAndPaddingAnimation(
                     child: _buildSubmitButton()),
               ),
               //Show circular progress indicator below submit button if post upload is delayed
+
               if (context.watch<PostUploadProvider>().isPostUploadDelayed)
                 Column(children: [
                   const SizedBox(height: 12),
@@ -399,6 +414,23 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
     messageTextFormFieldController.dispose();
     super.dispose();
   }
+
+  _populateTextFormFieldsWithLoremIpsum() {
+    nameTextFormFieldController.clear();
+    messageTextFormFieldController.clear();
+
+    List<String> loremIpsumName = faker.lorem.words(Random().nextInt(2) + 1);
+    for (int i = 0; i < loremIpsumName.length; i++) {
+      loremIpsumName[i] =
+          loremIpsumName[i][0].toUpperCase() + loremIpsumName[i].substring(1);
+    }
+    nameTextFormFieldController.text = loremIpsumName.join(' ');
+    for (int i = 0; i < Random().nextInt(3) + 1; i++) {
+      messageTextFormFieldController.text += faker.lorem.sentence();
+    }
+  }
+
+  generateRandomName() {}
 }
 
 class MyPainter extends CustomPainter {

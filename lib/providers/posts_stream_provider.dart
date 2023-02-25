@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:crud_mobile_app/models/lorem_ipsum_generator.dart';
 import 'package:crud_mobile_app/models/post.dart';
+import 'package:crud_mobile_app/screens/data_entry_view_screen.dart';
+import 'package:faker/faker.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_lorem/flutter_lorem.dart';
 
 ///Provides database logic for posts from Realtime Database
 class PostsStreamProvider extends ChangeNotifier {
@@ -35,7 +37,6 @@ class PostsStreamProvider extends ChangeNotifier {
       } else {
         _posts.insert(0, Post.fromRealTimeDatabase(postsMap));
       }
-      ;
       notifyListeners();
     }));
   }
@@ -47,15 +48,17 @@ class PostsStreamProvider extends ChangeNotifier {
       if (_posts == null) {
         databaseEvent = await _crudDatabaseReference.limitToLast(25).once();
       } else {
-        databaseEvent =
-            await _crudDatabaseReference.endBefore(_posts[0].timestamp).limitToLast(25).once();
+        databaseEvent = await _crudDatabaseReference
+            .endBefore(_posts[0].timestamp)
+            .limitToLast(25)
+            .once();
       }
       final Map<dynamic, dynamic> postsMap =
           databaseEvent.snapshot.value as dynamic;
-      for(Map<dynamic,dynamic> jsonPost in postsMap.values){
-         _posts
-            .add(Post.fromRealTimeDatabase(jsonPost));
-      }notifyListeners();
+      for (Map<dynamic, dynamic> jsonPost in postsMap.values) {
+        _posts.add(Post.fromRealTimeDatabase(jsonPost));
+      }
+      notifyListeners();
       _isRequesting = false;
     }
   }
@@ -66,15 +69,15 @@ class PostsStreamProvider extends ChangeNotifier {
     super.dispose();
   }
 
-  // void loadDataIntoDatabase() {
-  //   final DatabaseReference crudDatabaseReference =
-  //       FirebaseDatabase.instance.ref().child('posts');
-  //   for (int i = 0; i < 500; i++) {
-  //     crudDatabaseReference.push().set({
-  //       'name': lorem(words: 1),
-  //       'message': lorem(paragraphs: 1),
-  //       'timestamp': Random().nextInt(1000000) + 100000000
-  //     });
-  //   }
-  // }
+  void loadDataIntoDatabase() {
+    final DatabaseReference crudDatabaseReference =
+        FirebaseDatabase.instance.ref().child('posts');
+    for (int i = 0; i < 500; i++) {
+      crudDatabaseReference.push().set({
+        'name': LoremIpsumGenerator().generateLoremIpsumName(),
+        'message': LoremIpsumGenerator().generateLoremIpsumMessage(),
+        'timestamp': Random().nextInt(1000000) + 100000000
+      });
+    }
+  }
 }

@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:crud_mobile_app/models/lorem_ipsum_generator.dart';
 import 'package:crud_mobile_app/providers/DataEntryViewScreen/text_form_field_text_provider.dart';
 import 'package:crud_mobile_app/providers/DataEntryViewScreen/text_form_field_prefix_icon_color_provider.dart';
 import 'package:crud_mobile_app/providers/DataEntryViewScreen/post_uploading_provider.dart';
@@ -8,7 +9,6 @@ import 'package:crud_mobile_app/providers/posts_stream_provider.dart';
 import 'package:faker/faker.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_lorem/flutter_lorem.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:simple_shadow/simple_shadow.dart';
 import 'package:provider/provider.dart';
@@ -416,18 +416,10 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
   }
 
   _populateTextFormFieldsWithLoremIpsum() {
-    nameTextFormFieldController.clear();
-    messageTextFormFieldController.clear();
-
-    List<String> loremIpsumName = faker.lorem.words(Random().nextInt(2) + 1);
-    for (int i = 0; i < loremIpsumName.length; i++) {
-      loremIpsumName[i] =
-          loremIpsumName[i][0].toUpperCase() + loremIpsumName[i].substring(1);
-    }
-    nameTextFormFieldController.text = loremIpsumName.join(' ');
-    for (int i = 0; i < Random().nextInt(3) + 1; i++) {
-      messageTextFormFieldController.text += faker.lorem.sentence();
-    }
+    nameTextFormFieldController.text =
+        LoremIpsumGenerator().generateLoremIpsumName();
+    messageTextFormFieldController.text =
+        LoremIpsumGenerator().generateLoremIpsumMessage();
   }
 
   generateRandomName() {}

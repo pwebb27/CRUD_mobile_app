@@ -1,11 +1,16 @@
+// Dart imports:
 import 'dart:async';
 import 'dart:math';
+
+// Flutter imports:
+import 'package:flutter/cupertino.dart';
+
+// Package imports:
+import 'package:firebase_database/firebase_database.dart';
+
+// Project imports:
 import 'package:crud_mobile_app/models/lorem_ipsum_generator.dart';
 import 'package:crud_mobile_app/models/post.dart';
-import 'package:crud_mobile_app/screens/data_entry_view_screen.dart';
-import 'package:faker/faker.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/cupertino.dart';
 
 ///Provides database logic for posts from Realtime Database
 class PostsStreamProvider extends ChangeNotifier {
@@ -69,7 +74,7 @@ class PostsStreamProvider extends ChangeNotifier {
     super.dispose();
   }
 
-  void loadDataIntoDatabase() {
+  void populateDatabaseWithPosts() {
     final DatabaseReference crudDatabaseReference =
         FirebaseDatabase.instance.ref().child('posts');
     for (int i = 0; i < 500; i++) {

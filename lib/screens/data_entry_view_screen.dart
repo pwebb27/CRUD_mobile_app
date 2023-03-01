@@ -1,18 +1,24 @@
+// Dart imports:
 import 'dart:math';
 
-import 'package:crud_mobile_app/models/lorem_ipsum_generator.dart';
-import 'package:crud_mobile_app/providers/DataEntryViewScreen/text_form_field_text_provider.dart';
-import 'package:crud_mobile_app/providers/DataEntryViewScreen/text_form_field_prefix_icon_color_provider.dart';
-import 'package:crud_mobile_app/providers/DataEntryViewScreen/post_uploading_provider.dart';
-import 'package:crud_mobile_app/providers/connectivity_provider.dart';
-import 'package:crud_mobile_app/providers/posts_stream_provider.dart';
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:faker/faker.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:simple_shadow/simple_shadow.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_shadow/simple_shadow.dart';
+
+// Project imports:
+import 'package:crud_mobile_app/models/lorem_ipsum_generator.dart';
 import 'package:crud_mobile_app/providers/DataEntryViewScreen/button_size_provider.dart';
+import 'package:crud_mobile_app/providers/DataEntryViewScreen/post_uploading_provider.dart';
+import 'package:crud_mobile_app/providers/DataEntryViewScreen/text_form_field_prefix_icon_color_provider.dart';
+import 'package:crud_mobile_app/providers/DataEntryViewScreen/text_form_field_text_provider.dart';
+import 'package:crud_mobile_app/providers/connectivity_provider.dart';
+import 'package:crud_mobile_app/providers/posts_stream_provider.dart';
 
 class DataEntryViewScreen extends StatefulWidget {
   const DataEntryViewScreen({super.key});
@@ -422,7 +428,6 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
         LoremIpsumGenerator().generateLoremIpsumMessage();
   }
 
-  generateRandomName() {}
 }
 
 class MyPainter extends CustomPainter {

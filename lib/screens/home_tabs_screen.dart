@@ -1,6 +1,9 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Project imports:
 import 'package:crud_mobile_app/screens/data_entry_view_screen.dart';
 import 'package:crud_mobile_app/screens/view_data_screen.dart';
-import 'package:flutter/material.dart';
 
 class HomeTabsScreen extends StatefulWidget {
   const HomeTabsScreen({super.key});

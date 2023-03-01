@@ -31,16 +31,17 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  wakelock: ^0.6.1+2
-  firebase_core: ^2.4.0
-  firebase_database: ^10.0.8
-  connectivity_plus: ^3.0.2
-  intl: ^0.15.7
-  cupertino_icons: ^1.0.2
-  simple_shadow: ^0.3.0
+  wakelock: ^0.6.2
+  firebase_core: ^2.7.0
+  firebase_database: ^10.0.14
+  connectivity_plus: ^3.0.3
+  intl: ^0.18.0
+  cupertino_icons: ^1.0.5
+  simple_shadow: ^0.3.1
   provider: ^6.0.5
-  fluttertoast: ^8.1.2
+  fluttertoast: ^8.2.1
   faker: ^2.1.0
+  import_sorter: ^4.6.0
 
 
 
@@ -53,7 +54,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^2.0.0
+  flutter_lints: ^2.0.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

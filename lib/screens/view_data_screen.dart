@@ -1,9 +1,14 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+
+// Project imports:
 import 'package:crud_mobile_app/models/post.dart';
 import 'package:crud_mobile_app/providers/ViewDataScreenProviders/FloatingActionButtonProvider.dart';
 import 'package:crud_mobile_app/providers/posts_stream_provider.dart';
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 
 class ViewDataScreen extends StatefulWidget {
   const ViewDataScreen({super.key});

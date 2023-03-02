@@ -12,16 +12,15 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:crud_mobile_app/models/lorem_ipsum_generator.dart';
 import 'package:crud_mobile_app/models/post.dart';
 
-///Provides database logic for posts from Realtime Database
+/// Provides database logic for posts from Realtime Database
 class PostsStreamProvider extends ChangeNotifier {
   final _crudDatabaseReference =
       FirebaseDatabase.instance.ref().child('posts').orderByChild('timestamp');
 
-  final List<Post> _posts = [];
-  int firstPostsLimit = 25;
+  List<Post> _posts = [];
+  static const int _postsPerRequest = 10;
 
   bool _isRequesting = false;
-  bool _isInitialDataLoaded = false;
 
   List<Post>? get posts => _posts;
   late StreamSubscription<DatabaseEvent> _streamSubscription;
@@ -29,18 +28,22 @@ class PostsStreamProvider extends ChangeNotifier {
 
   PostsStreamProvider() {
     _streamSubscription = _crudDatabaseReference
-        .limitToLast(firstPostsLimit)
+        .limitToLast(_postsPerRequest)
         .onChildAdded
         .listen(((databaseEvent) {
       final Map<dynamic, dynamic> postsMap =
           databaseEvent.snapshot.value as dynamic;
-      if (!_isInitialDataLoaded) {
+      final String? postKey = databaseEvent.snapshot.key;
+      if (counter != _postsPerRequest) {
+        _posts
+            .add(Post.fromRealTimeDatabase(jsonPost: postsMap, key: postKey!));
         ++counter;
-        _posts.add(Post.fromRealTimeDatabase(postsMap));
-        notifyListeners();
-        if (counter == firstPostsLimit) _isInitialDataLoaded = true;
+        if (counter == _postsPerRequest) {
+          _posts = _posts.reversed.toList();
+        }
       } else {
-        _posts.insert(0, Post.fromRealTimeDatabase(postsMap));
+        _posts.insert(
+            0, Post.fromRealTimeDatabase(jsonPost: postsMap, key: postKey!));
       }
       notifyListeners();
     }));
@@ -50,19 +53,19 @@ class PostsStreamProvider extends ChangeNotifier {
     if (!_isRequesting) {
       DatabaseEvent databaseEvent;
       _isRequesting = true;
-      if (_posts == null) {
-        databaseEvent = await _crudDatabaseReference.limitToLast(25).once();
-      } else {
-        databaseEvent = await _crudDatabaseReference
-            .endBefore(_posts[0].timestamp)
-            .limitToLast(25)
-            .once();
-      }
+      Post lastPostLoaded = _posts[posts!.length - 1];
+      databaseEvent = await _crudDatabaseReference
+          .endBefore(lastPostLoaded.timestamp, key: lastPostLoaded.key)
+          .limitToLast(_postsPerRequest)
+          .once();
       final Map<dynamic, dynamic> postsMap =
           databaseEvent.snapshot.value as dynamic;
-      for (Map<dynamic, dynamic> jsonPost in postsMap.values) {
-        _posts.add(Post.fromRealTimeDatabase(jsonPost));
-      }
+      List<Post> newPosts = postsMap.entries
+          .map((entry) =>
+              Post.fromRealTimeDatabase(jsonPost: entry.value, key: entry.key))
+          .toList();
+      newPosts.sort((a, b) => b.timestamp.compareTo(a.timestamp));
+      _posts.addAll(newPosts);
       notifyListeners();
       _isRequesting = false;
     }
@@ -77,11 +80,11 @@ class PostsStreamProvider extends ChangeNotifier {
   void populateDatabaseWithPosts() {
     final DatabaseReference crudDatabaseReference =
         FirebaseDatabase.instance.ref().child('posts');
-    for (int i = 0; i < 500; i++) {
+    for (int i = 0; i < 50; i++) {
       crudDatabaseReference.push().set({
         'name': LoremIpsumGenerator().generateLoremIpsumName(),
         'message': LoremIpsumGenerator().generateLoremIpsumMessage(),
-        'timestamp': Random().nextInt(1000000) + 100000000
+        'timestamp': i
       });
     }
   }

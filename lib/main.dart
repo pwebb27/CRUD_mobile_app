@@ -1,6 +1,5 @@
 // Dart imports:
 import 'dart:async';
-import 'dart:math';
 
 // Flutter imports:
 import 'package:flutter/material.dart';
@@ -14,14 +13,14 @@ import 'package:provider/provider.dart';
 import 'package:wakelock/wakelock.dart';
 
 // Project imports:
-import 'package:crud_mobile_app/providers/DataEntryViewScreen/button_size_provider.dart';
-import 'package:crud_mobile_app/providers/DataEntryViewScreen/post_uploading_provider.dart';
-import 'package:crud_mobile_app/providers/DataEntryViewScreen/text_form_field_prefix_icon_color_provider.dart';
-import 'package:crud_mobile_app/providers/DataEntryViewScreen/text_form_field_text_provider.dart';
-import 'package:crud_mobile_app/providers/ViewDataScreenProviders/FloatingActionButtonProvider.dart';
-import 'package:crud_mobile_app/providers/connectivity_provider.dart';
-import 'package:crud_mobile_app/providers/posts_stream_provider.dart';
-import 'package:crud_mobile_app/screens/home_tabs_screen.dart';
+import 'package:crud_mobile_app/presentation/providers/DataEntryViewScreen/button_size_provider.dart';
+import 'package:crud_mobile_app/presentation/providers/DataEntryViewScreen/post_uploading_provider.dart';
+import 'package:crud_mobile_app/presentation/providers/DataEntryViewScreen/text_form_field_prefix_icon_color_provider.dart';
+import 'package:crud_mobile_app/presentation/providers/DataEntryViewScreen/text_form_field_text_provider.dart';
+import 'package:crud_mobile_app/presentation/providers/ViewDataScreenProviders/FloatingActionButtonProvider.dart';
+import 'package:crud_mobile_app/presentation/providers/connectivity_provider.dart';
+import 'package:crud_mobile_app/presentation/providers/posts_stream_provider.dart';
+import 'package:crud_mobile_app/presentation/screens/home_tabs_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -62,7 +61,7 @@ class _MyAppState extends State<MyApp> {
       _checkInternetConnectivity();
     });
     _checkInitialInternetConnectivity();
-    FirebaseDatabase.instance.setPersistenceEnabled(true);
+    FirebaseDatabase.instance.setPersistenceEnabled(false);
 
     super.initState();
   }

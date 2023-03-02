@@ -1,6 +1,3 @@
-// Dart imports:
-import 'dart:math';
-
 // Flutter imports:
 import 'package:flutter/material.dart';
 
@@ -18,7 +15,6 @@ import 'package:crud_mobile_app/providers/DataEntryViewScreen/post_uploading_pro
 import 'package:crud_mobile_app/providers/DataEntryViewScreen/text_form_field_prefix_icon_color_provider.dart';
 import 'package:crud_mobile_app/providers/DataEntryViewScreen/text_form_field_text_provider.dart';
 import 'package:crud_mobile_app/providers/connectivity_provider.dart';
-import 'package:crud_mobile_app/providers/posts_stream_provider.dart';
 
 class DataEntryViewScreen extends StatefulWidget {
   const DataEntryViewScreen({super.key});
@@ -172,14 +168,14 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
                   child: _buildNameTextFormField()),
               _buildOpacityAndPaddingAnimation(
                   child: _buildMessageTextFormField()),
-              SizedBox(
+              const SizedBox(
                 height: 18,
               ),
               GestureDetector(
                   onTap: () => _populateTextFormFieldsWithLoremIpsum(),
-                  child: Text('Generate Lorem Ipsum',
+                  child: const Text('Generate Lorem Ipsum',
                       style: TextStyle(
-                          color: Colors.grey.shade300,
+                          color: Colors.white,
                           fontSize: 14,
                           fontWeight: FontWeight.w500))),
 

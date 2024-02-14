@@ -16,8 +16,8 @@ A simple proof of concept Firebase Realtime Database application to display user
   - import_sorter
   - equatable
   - dartz
-  - shared_preferences: ^2.2.2
+  - shared_preferences
     
 ## Dev Dependencies:
   - flutter_test
-  - mockito: ^5.3.2
+  - mockito

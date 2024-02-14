@@ -2,15 +2,22 @@
 
 A simple proof of concept Firebase Realtime Database application to display user generated messages.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Dependencies
+  - wakelock
+  - firebase_core
+  - firebase_database
+  - connectivity_plus
+  - intl
+  - cupertino_icons
+  - simple_shadow
+  - provider
+  - fluttertoast
+  - faker
+  - import_sorter
+  - equatable
+  - dartz
+  - shared_preferences: ^2.2.2
+    
+## Dev Dependencies:
+  - flutter_test
+  - mockito: ^5.3.2

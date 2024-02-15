@@ -3,21 +3,20 @@
 A simple proof of concept Firebase Realtime Database application to display user generated messages.
 
 ## Dependencies
-  - wakelock
-  - firebase_core
-  - firebase_database
-  - connectivity_plus
-  - intl
-  - cupertino_icons
-  - simple_shadow
-  - provider
-  - fluttertoast
-  - faker
-  - import_sorter
-  - equatable
-  - dartz
-  - shared_preferences
+  - [wakelock](https://pub.dev/packages/wakelock)
+  - [firebase_core](https://pub.dev/packages/firebase_core)
+  - [firebase_database](https://pub.dev/packages/firebase_database)
+  - [connectivity_plus](https://pub.dev/packages/connectivity_plus)
+  - [intl](https://pub.dev/packages/intl)
+  - [cupertino_icon](https://pub.dev/packages/cupertino_icons)
+  - [simple_shadow](https://pub.dev/packages/simple_shadow/license) 
+  - [provider](https://pub.dev/packages/provider)
+  - [fluttertoast](https://pub.dev/packages/fluttertoast)
+  - [faker](https://pub.dev/packages/faker)
+  - [import_sorter](https://pub.dev/documentation/import_sorter/latest/)
+  - [equatable](https://pub.dev/packages/equatable)
+  - [dartz](https://pub.dev/packages/dartz/versions)
+  - [shared_preferences](https://pub.dev/packages/shared_preferences)
     
 ## Dev Dependencies:
-  - flutter_test
-  - mockito
+  - [mockito](https://pub.dev/packages/mockito)

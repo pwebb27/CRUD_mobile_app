@@ -146,19 +146,22 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
                           ),
                           const SizedBox(height: 25),
                           _buildOpacityAndPaddingAnimation(
-                              child: Text(
-                            'Enter your name and message',
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context)
-                                .textTheme
-                                .displayLarge!
-                                .copyWith(shadows: <Shadow>[
-                              const Shadow(
-                                offset: Offset(8.0, 8.0),
-                                blurRadius: 45.0,
-                                color: Color.fromARGB(255, 0, 0, 0),
-                              ),
-                            ]),
+                              child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 18),
+                            child: Text(
+                              'Enter your name and message',
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displayLarge!
+                                  .copyWith(height: 1.5, shadows: <Shadow>[
+                                const Shadow(
+                                  offset: Offset(8.0, 8.0),
+                                  blurRadius: 45.0,
+                                  color: Color.fromARGB(255, 0, 0, 0),
+                                ),
+                              ]),
+                            ),
                           ))
                         ]),
                   ),

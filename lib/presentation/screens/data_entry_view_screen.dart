@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:simple_shadow/simple_shadow.dart';
 
 // Project imports:
-import 'package:crud_mobile_app/models/lorem_ipsum_generator.dart';
+import 'package:crud_mobile_app/features/data/models/lorem_ipsum_generator.dart';
 import 'package:crud_mobile_app/presentation/providers/DataEntryViewScreen/button_size_provider.dart';
 import 'package:crud_mobile_app/presentation/providers/DataEntryViewScreen/post_uploading_provider.dart';
 import 'package:crud_mobile_app/presentation/providers/DataEntryViewScreen/text_form_field_prefix_icon_color_provider.dart';
@@ -116,6 +116,7 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
           reverse: true,
           child: Column(children: [
             SizedBox(
+                width: MediaQuery.of(context).size.width,
                 height: (MediaQuery.of(context).size.height -
                         Scaffold.of(context).appBarMaxHeight!.toDouble()) *
                     .4,
@@ -423,7 +424,6 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
     messageTextFormFieldController.text =
         LoremIpsumGenerator().generateLoremIpsumMessage();
   }
-
 }
 
 class MyPainter extends CustomPainter {

@@ -4,6 +4,9 @@
 
 A simple proof of concept Firebase Realtime Database application to display user generated messages.
 
+> [!NOTE]
+> This project is still a work in progress.
+
 ## Dependencies
   - [wakelock](https://pub.dev/packages/wakelock)
   - [firebase_core](https://pub.dev/packages/firebase_core)

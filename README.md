@@ -23,17 +23,18 @@ A simple proof of concept Firebase Realtime Database application to display user
 
 ## Building from source:
 1. Clone the repository:
-
-```git clone https://github.com/pwebb27/CRUD_mobile_app```
-
-2. Change directory to the repository:
-
-```cd \CRUD_mobile_app```
-
+```
+git clone https://github.com/pwebb27/CRUD_mobile_app`
+```
+2. Change directory to the repository
+```
+cd \CRUD_mobile_app
+```
 4. Install dependencies:
-
-```flutter pub get```
-
+```
+flutter pub get
+```
 6. Run the app:
-
-```flutter run```
+```
+flutter run
+```

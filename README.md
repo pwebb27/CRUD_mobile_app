@@ -1,3 +1,5 @@
+![Static Badge](https://img.shields.io/badge/Made%20With-Flutter-5fc9f8)
+
 # crud_mobile_app
 
 A simple proof of concept Firebase Realtime Database application to display user generated messages.

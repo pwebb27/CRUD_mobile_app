@@ -24,7 +24,7 @@ A simple proof of concept Firebase Realtime Database application to display user
 ## Building from source:
 1. Clone the repository:
 ```
-git clone https://github.com/pwebb27/CRUD_mobile_app`
+git clone https://github.com/pwebb27/CRUD_mobile_app
 ```
 2. Change directory to the repository
 ```

@@ -7,6 +7,14 @@ A simple proof of concept Firebase Realtime Database application to display user
 > [!NOTE]
 > This project is still a work in progress.
 
+## Screenshots
+
+<img src="https://github.com/pwebb27/CRUD_mobile_app/assets/88386105/24e484b0-2472-4600-abfd-889be24cf410" width="350" />
+
+<img src="https://github.com/pwebb27/CRUD_mobile_app/assets/88386105/4e0850e2-ee49-4126-8690-bc665c8286fa" width="350" />
+
+<img src="https://github.com/pwebb27/CRUD_mobile_app/assets/88386105/51f10eb9-d6dd-4981-898f-31cbe396db33" width="350" />
+
 ## Dependencies
   - [wakelock](https://pub.dev/packages/wakelock)
   - [firebase_core](https://pub.dev/packages/firebase_core)

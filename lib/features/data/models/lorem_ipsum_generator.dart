@@ -9,7 +9,7 @@ class LoremIpsumGenerator {
 
   LoremIpsumGenerator._internal();
   static final LoremIpsumGenerator _singleton = LoremIpsumGenerator._internal();
-  factory LoremIpsumGenerator() =>_singleton;
+  factory LoremIpsumGenerator() => _singleton;
 
   String generateLoremIpsumName() {
     List<String> loremIpsumName = _faker.lorem.words(Random().nextInt(2) + 1);
@@ -19,11 +19,11 @@ class LoremIpsumGenerator {
     }
     return loremIpsumName.join(' ');
   }
-  
-  String generateLoremIpsumMessage(){
+
+  String generateLoremIpsumMessage() {
     String message = '';
     for (int i = 0; i < Random().nextInt(3) + 1; i++) {
-       message+= _faker.lorem.sentence();
+      message += _faker.lorem.sentence();
     }
     return message;
   }

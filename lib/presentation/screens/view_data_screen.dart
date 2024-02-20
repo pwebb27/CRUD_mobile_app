@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 // Project imports:
-import 'package:crud_mobile_app/models/post.dart';
+import 'package:crud_mobile_app/features/data/models/post_model.dart';
 import 'package:crud_mobile_app/presentation/providers/ViewDataScreenProviders/FloatingActionButtonProvider.dart';
 import 'package:crud_mobile_app/presentation/providers/posts_stream_provider.dart';
 

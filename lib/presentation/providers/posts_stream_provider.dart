@@ -9,8 +9,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 // Project imports:
-import 'package:crud_mobile_app/models/lorem_ipsum_generator.dart';
-import 'package:crud_mobile_app/models/post.dart';
+import 'package:crud_mobile_app/features/data/models/lorem_ipsum_generator.dart';
+import 'package:crud_mobile_app/features/data/models/post_model.dart';
 
 /// Provides database logic for posts from Realtime Database
 class PostsStreamProvider extends ChangeNotifier {

@@ -1,6 +1,19 @@
+![Static Badge](https://img.shields.io/badge/Made%20With-Flutter-5fc9f8)
+
 # crud_mobile_app
 
 A simple proof of concept Firebase Realtime Database application to display user generated messages.
+
+> [!NOTE]
+> This project is still a work in progress.
+
+## Screenshots
+
+<img src="https://github.com/pwebb27/CRUD_mobile_app/assets/88386105/24e484b0-2472-4600-abfd-889be24cf410" width="350" />
+
+<img src="https://github.com/pwebb27/CRUD_mobile_app/assets/88386105/4e0850e2-ee49-4126-8690-bc665c8286fa" width="350" />
+
+<img src="https://github.com/pwebb27/CRUD_mobile_app/assets/88386105/51f10eb9-d6dd-4981-898f-31cbe396db33" width="350" />
 
 ## Dependencies
   - [wakelock](https://pub.dev/packages/wakelock)
@@ -20,3 +33,21 @@ A simple proof of concept Firebase Realtime Database application to display user
     
 ## Dev Dependencies:
   - [mockito](https://pub.dev/packages/mockito)
+
+## Building from source:
+1. Clone the repository:
+```
+git clone https://github.com/pwebb27/CRUD_mobile_app.git
+```
+2. Change directory to the repository
+```
+cd \CRUD_mobile_app
+```
+4. Install dependencies:
+```
+flutter pub get
+```
+6. Run the app:
+```
+flutter run
+```

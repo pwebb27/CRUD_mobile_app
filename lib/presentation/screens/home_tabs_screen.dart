@@ -56,8 +56,7 @@ class _HomeTabsScreenState extends State<HomeTabsScreen>
 }
 
 class CustomTabBarViewPhysics extends ScrollPhysics {
-  const CustomTabBarViewPhysics({ScrollPhysics? parent})
-      : super(parent: parent);
+  const CustomTabBarViewPhysics({super.parent});
 
   @override
   CustomTabBarViewPhysics applyTo(ScrollPhysics? ancestor) =>

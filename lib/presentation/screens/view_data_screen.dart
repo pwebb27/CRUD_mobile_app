@@ -84,9 +84,7 @@ class _ViewDataScreenState extends State<ViewDataScreen>
 }
 
 class _NoPostsWidget extends StatelessWidget {
-  const _NoPostsWidget({
-    Key? key,
-  }) : super(key: key);
+  const _NoPostsWidget();
 
   @override
   Widget build(BuildContext context) {

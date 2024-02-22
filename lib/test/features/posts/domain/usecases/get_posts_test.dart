@@ -26,7 +26,7 @@ void main() {
       when(mockPostRepository.getPosts(any))
           .thenAnswer((_) async => Right(tPosts));
       // act
-      final result = await usecase.execute(numPosts: tNumPosts);
+      final result = await usecase(amountOfPostsRequested: tNumPosts);
 
       expect(result, Right(tPosts));
       verify(mockPostRepository.getPosts(tNumPosts));

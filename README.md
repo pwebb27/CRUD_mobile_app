@@ -30,8 +30,6 @@ A simple proof of concept Firebase Realtime Database application to display user
   - [equatable](https://pub.dev/packages/equatable)
   - [dartz](https://pub.dev/packages/dartz/versions)
   - [shared_preferences](https://pub.dev/packages/shared_preferences)
-    
-## Dev Dependencies:
   - [mockito](https://pub.dev/packages/mockito)
 
 ## Building from source:

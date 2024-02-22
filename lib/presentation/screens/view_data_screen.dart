@@ -140,7 +140,7 @@ class _PostTile extends StatelessWidget {
                         color: Colors.grey.withOpacity(0.15),
                         spreadRadius: 1,
                         blurRadius: 15,
-                        offset: Offset(3, 2))
+                        offset: const Offset(3, 2))
                   ],
                   color: Colors.grey.shade300,
                   borderRadius: const BorderRadius.only(

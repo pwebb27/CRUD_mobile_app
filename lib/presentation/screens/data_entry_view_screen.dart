@@ -147,7 +147,7 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
                           const SizedBox(height: 25),
                           _buildOpacityAndPaddingAnimation(
                               child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 18),
+                            padding: const EdgeInsets.symmetric(horizontal: 18),
                             child: Text(
                               'Enter your name and message',
                               textAlign: TextAlign.center,
@@ -380,9 +380,9 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
             decoration: BoxDecoration(
                 color: Colors.grey.shade600.withOpacity(.5),
                 borderRadius: BorderRadius.circular(25)),
-            child: Row(
+            child: const Row(
               mainAxisSize: MainAxisSize.min,
-              children: const [
+              children: [
                 Icon(Icons.check_circle, color: Colors.white, size: 22),
                 SizedBox(width: 10),
                 Text(
@@ -400,9 +400,9 @@ class _DataEntryViewScreenState extends State<DataEntryViewScreen>
             decoration: BoxDecoration(
                 color: Colors.red.shade600.withOpacity(.8),
                 borderRadius: BorderRadius.circular(25)),
-            child: Row(
+            child: const Row(
               mainAxisSize: MainAxisSize.min,
-              children: const [
+              children: [
                 Icon(Icons.info_outline, color: Colors.white, size: 22),
                 SizedBox(width: 10),
                 Text(
@@ -448,7 +448,7 @@ class MyPainter extends CustomPainter {
     lineBackground.lineTo((height * .6), 0);
     lineBackground.lineTo(0, (height * .6));
 
-    paint.color = Color.fromRGBO(118, 164, 183, 1);
+    paint.color = const Color.fromRGBO(118, 164, 183, 1);
     canvas.drawPath(lineBackground, paint);
   }
 

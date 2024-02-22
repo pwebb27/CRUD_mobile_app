@@ -1,6 +1,5 @@
 // Dart imports:
 import 'dart:async';
-import 'dart:math';
 
 // Flutter imports:
 import 'package:flutter/cupertino.dart';

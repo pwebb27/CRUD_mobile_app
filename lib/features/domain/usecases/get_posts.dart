@@ -1,15 +1,27 @@
 import 'package:crud_mobile_app/core/failures.dart';
+import 'package:crud_mobile_app/core/usecases/usecases.dart';
 import 'package:crud_mobile_app/features/data/models/post_model.dart';
 import 'package:crud_mobile_app/features/domain/repositories/post_repository.dart';
 import 'package:dartz/dartz.dart';
+import 'package:equatable/equatable.dart';
 
-class GetPosts {
+class GetPosts implements UseCase<List<Post>, Params> {
   final PostRepository repository;
 
   GetPosts(this.repository);
-  Future<Either<Failure, List<Post>>> call({
-    required int amountOfPostsRequested,
-  }) async {
-    return await repository.getPosts(amountOfPostsRequested);
+
+  @override
+  Future<Either<Failure, List<Post>>> call(
+    Params params,
+  ) async {
+    return await repository.getPosts(params.amountofPostsRequested);
   }
+}
+
+class Params extends Equatable {
+  final int amountofPostsRequested;
+  const Params({required this.amountofPostsRequested});
+
+  @override
+  List<Object> get props => [];
 }

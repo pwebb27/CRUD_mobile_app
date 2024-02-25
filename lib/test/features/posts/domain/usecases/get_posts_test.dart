@@ -16,7 +16,7 @@ void main() {
     usecase = GetPosts(mockPostRepository);
   });
 
-  const tNumPosts = 1;
+  const tAmountOfPostsRequested = 1;
   final tPosts = [Post('testKey', 'testName', 'testMessage', 123456)];
 
   test(
@@ -26,10 +26,11 @@ void main() {
       when(mockPostRepository.getPosts(any))
           .thenAnswer((_) async => Right(tPosts));
       // act
-      final result = await usecase(amountOfPostsRequested: tNumPosts);
+      final result = await usecase(
+          Params(amountofPostsRequested: tAmountOfPostsRequested));
 
       expect(result, Right(tPosts));
-      verify(mockPostRepository.getPosts(tNumPosts));
+      verify(mockPostRepository.getPosts(tAmountOfPostsRequested));
       verifyNoMoreInteractions(mockPostRepository);
       // assert
     },

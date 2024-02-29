@@ -1,4 +1,5 @@
 import 'package:crud_mobile_app/features/data/models/post_model.dart';
+import 'package:crud_mobile_app/features/domain/entities/post.dart';
 import 'package:crud_mobile_app/features/domain/repositories/post_repository.dart';
 import 'package:crud_mobile_app/features/domain/usecases/get_posts.dart';
 import 'package:dartz/dartz.dart';
@@ -17,7 +18,13 @@ void main() {
   });
 
   const tAmountOfPostsRequested = 1;
-  final tPosts = [Post('testKey', 'testName', 'testMessage', 123456)];
+  final tPosts = [
+    const Post(
+        key: 'testKey',
+        name: 'testName',
+        message: 'testMessage',
+        timestamp: 123456)
+  ];
 
   test(
     'should get posts from the repository',

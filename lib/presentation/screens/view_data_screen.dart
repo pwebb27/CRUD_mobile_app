@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:crud_mobile_app/features/domain/entities/post.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:

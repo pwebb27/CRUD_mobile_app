@@ -1,4 +1,4 @@
-import 'package:crud_mobile_app/core/failures.dart';
+import 'package:crud_mobile_app/core/error/failures.dart';
 import 'package:crud_mobile_app/core/usecases/usecases.dart';
 import 'package:crud_mobile_app/features/domain/entities/post.dart';
 import 'package:crud_mobile_app/features/domain/repositories/post_repository.dart';

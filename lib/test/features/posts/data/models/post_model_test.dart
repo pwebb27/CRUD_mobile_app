@@ -6,7 +6,8 @@ import 'package:crud_mobile_app/test/fixtures/fixture_reader.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  const tPostModel = PostModel('1234', 'Test Name', 'Test message', 1234);
+  const tPostModel = PostModel(
+      key: '1234', name: 'Test Name', message: 'Test message', timestamp: 1234);
 
   test(
     'should be a subclass of Post entity',
@@ -50,6 +51,7 @@ void main() {
             }
           };
           // assert
+          expect(result, expectedMap);
         },
       );
     });

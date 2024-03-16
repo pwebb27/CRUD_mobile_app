@@ -2,6 +2,8 @@
 import 'dart:async';
 
 // Flutter imports:
+import 'package:crud_mobile_app/features/domain/entities/post.dart';
+
 import 'package:flutter/cupertino.dart';
 
 // Package imports:
@@ -34,15 +36,15 @@ class PostsStreamProvider extends ChangeNotifier {
           databaseEvent.snapshot.value as dynamic;
       final String? postKey = databaseEvent.snapshot.key;
       if (counter != _postsPerRequest) {
-        _posts
-            .add(Post.fromRealTimeDatabase(jsonPost: postsMap, key: postKey!));
+        _posts.add(
+            PostModel.fromRealTimeDatabase(jsonPost: postsMap, key: postKey!));
         ++counter;
         if (counter == _postsPerRequest) {
           _posts = _posts.reversed.toList();
         }
       } else {
-        _posts.insert(
-            0, Post.fromRealTimeDatabase(jsonPost: postsMap, key: postKey!));
+        _posts.insert(0,
+            PostModel.fromRealTimeDatabase(jsonPost: postsMap, key: postKey!));
       }
       notifyListeners();
     }));
@@ -60,8 +62,8 @@ class PostsStreamProvider extends ChangeNotifier {
       final Map<dynamic, dynamic> postsMap =
           databaseEvent.snapshot.value as dynamic;
       List<Post> newPosts = postsMap.entries
-          .map((entry) =>
-              Post.fromRealTimeDatabase(jsonPost: entry.value, key: entry.key))
+          .map((entry) => PostModel.fromRealTimeDatabase(
+              jsonPost: entry.value, key: entry.key))
           .toList();
       newPosts.sort((a, b) => b.timestamp.compareTo(a.timestamp));
       _posts.addAll(newPosts);

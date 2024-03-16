@@ -1,5 +1,5 @@
-import 'package:crud_mobile_app/features/domain/entities/post.dart';
+import 'package:crud_mobile_app/features/data/models/post_model.dart';
 
 abstract class PostRemoteDataSource {
-  Future<List<Post>> getPosts(int? amountRequested);
+  Future<List<PostModel>> getPosts(int? amountRequested);
 }

@@ -1,3 +1,4 @@
+import 'package:crud_mobile_app/core/error/exceptions.dart';
 import 'package:crud_mobile_app/core/error/failures.dart';
 import 'package:crud_mobile_app/core/platform/network_info.dart';
 import 'package:crud_mobile_app/features/data/datasources/post_local_data_source.dart';
@@ -18,8 +19,12 @@ class PostRepositoryImpl implements PostRepository {
   @override
   Future<Either<Failure, List<Post>>> getPosts(int? amountRequested) async {
     networkInfo.isConnected;
-    final remoteTrivia = await remoteDataSource.getPosts(amountRequested);
-    localDataSource.cachePosts(remoteTrivia);
-    return Right(remoteTrivia);
+    try {
+      final remoteTrivia = await remoteDataSource.getPosts(amountRequested);
+      localDataSource.cachePosts(remoteTrivia);
+      return Right(remoteTrivia);
+    } on ServerException {
+      return Left(ServerFailure());
+    }
   }
 }

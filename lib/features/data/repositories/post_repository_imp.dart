@@ -18,13 +18,17 @@ class PostRepositoryImpl implements PostRepository {
       required this.networkInfo});
   @override
   Future<Either<Failure, List<Post>>> getPosts(int? amountRequested) async {
-    networkInfo.isConnected;
-    try {
-      final remoteTrivia = await remoteDataSource.getPosts(amountRequested);
-      localDataSource.cachePosts(remoteTrivia);
-      return Right(remoteTrivia);
-    } on ServerException {
-      return Left(ServerFailure());
+    if (await networkInfo.isConnected) {
+      try {
+        final remoteTrivia = await remoteDataSource.getPosts(amountRequested);
+        localDataSource.cachePosts(remoteTrivia);
+        return Right(remoteTrivia);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+      final localPosts = await localDataSource.getLastPosts();
+      return Right(localPosts);
     }
   }
 }

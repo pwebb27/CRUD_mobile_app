@@ -116,5 +116,19 @@ void main() {
         },
       );
     });
+    test(
+      'should return CacheFailure when there is no cached data present',
+      () async {
+        // arrange
+        when(mockLocalDataSource.getLastPosts())
+            .thenThrow((_) async => CacheException());
+        // act
+        final result = await repository.getPosts(tAmountRequested);
+        // assert
+        verifyZeroInteractions(mockRemoteDataSource);
+        verify(mockLocalDataSource.getLastPosts());
+        expect(result, equals(Left(CacheFailure())));
+      },
+    );
   });
 }

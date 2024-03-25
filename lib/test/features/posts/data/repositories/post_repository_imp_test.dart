@@ -101,6 +101,20 @@ void main() {
       setUp(() {
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
       });
+      test(
+        'should return last locally cached data when the cached data is present',
+        () async {
+          // arrange
+          when(mockLocalDataSource.getLastPosts())
+              .thenAnswer((_) async => tPostModels);
+          // act
+          final result = await repository.getPosts(tAmountRequested);
+          // assert
+          verifyZeroInteractions(mockRemoteDataSource);
+          verify(mockLocalDataSource.getLastPosts());
+          expect(result, equals(Right(tPosts)));
+        },
+      );
     });
   });
 }

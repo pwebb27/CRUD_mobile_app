@@ -27,8 +27,12 @@ class PostRepositoryImpl implements PostRepository {
         return Left(ServerFailure());
       }
     } else {
-      final localPosts = await localDataSource.getLastPosts();
-      return Right(localPosts);
+      try {
+        final localPosts = await localDataSource.getLastPosts();
+        return Right(localPosts);
+      } on CacheException {
+        return Left(CacheFailure());
+      }
     }
   }
 }

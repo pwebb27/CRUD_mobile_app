@@ -1,6 +1,6 @@
 import 'package:crud_mobile_app/core/error/exceptions.dart';
 import 'package:crud_mobile_app/core/error/failures.dart';
-import 'package:crud_mobile_app/core/platform/network_info.dart';
+import 'package:crud_mobile_app/core/network/network_info.dart';
 import 'package:crud_mobile_app/features/data/datasources/post_local_data_source.dart';
 import 'package:crud_mobile_app/features/data/datasources/post_remote_data_source.dart';
 import 'package:crud_mobile_app/features/data/models/post_model.dart';

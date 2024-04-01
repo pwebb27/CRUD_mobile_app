@@ -51,6 +51,7 @@ dependencies:
   
   flutter_test:
     sdk: flutter
+  internet_connection_checker: ^1.0.0+1
 
 
 

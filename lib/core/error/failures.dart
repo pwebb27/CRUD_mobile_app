@@ -5,6 +5,22 @@ abstract class Failure extends Equatable {
 }
 // General failure
 
-class ServerFailure implements Failure {}
+class ServerFailure implements Failure {
+  @override
+  // TODO: implement props
+  List<Object?> get props => throw UnimplementedError();
 
-class CacheFailure implements Failure {}
+  @override
+  // TODO: implement stringify
+  bool? get stringify => throw UnimplementedError();
+}
+
+class CacheFailure implements Failure {
+  @override
+  // TODO: implement props
+  List<Object?> get props => throw UnimplementedError();
+
+  @override
+  // TODO: implement stringify
+  bool? get stringify => throw UnimplementedError();
+}
